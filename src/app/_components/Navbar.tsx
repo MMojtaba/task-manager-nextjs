@@ -29,7 +29,8 @@ export default function Navbar() {
           className={`btn text-xl mx-2 ${
             pathname === el.path ? "btn-primary" : "btn-ghost"
           }`}
-          href={el.path}>
+          href={el.path}
+          prefetch={false}>
           {el.title}
         </Link>
       ))}
