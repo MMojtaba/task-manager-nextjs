@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import MiniTask from "../_components/MiniTask";
+import MiniTask from "../../_components/MiniTask";
 
 export const metadata: Metadata = {
   title: "Tasks",
