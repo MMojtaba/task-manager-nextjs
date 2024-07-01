@@ -15,6 +15,7 @@ export default async function dbConnect() {
   if (cached.conn) {
     return cached.conn;
   } else if (!cached.promise) {
+    console.log("connecting to db: promise");
     const opts = {
       bufferCommands: false,
     };
@@ -25,8 +26,11 @@ export default async function dbConnect() {
   }
 
   try {
+    console.log("connecting to db: connection");
     cached.conn = await cached.promise;
+    console.log("connected to db");
   } catch (err) {
+    console.log("error connecting to db");
     cached.promise = null;
     throw err;
   }

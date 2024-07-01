@@ -30,6 +30,14 @@ export default function Navbar() {
       path: "/register",
       title: "Register",
     },
+    {
+      path: "/api/auth/signin",
+      title: "Login2",
+    },
+    {
+      path: "/api/auth/signout",
+      title: "Signout2",
+    },
   ];
 
   return (
