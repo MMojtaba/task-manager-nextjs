@@ -21,6 +21,7 @@ export default function MyCarousel({ images, single = false }: Props) {
       showThumbs={single}
       swipeable={false}
       width={"100%"}
+      infiniteLoop={true}
     >
       {images.map((image, index) => {
         return (

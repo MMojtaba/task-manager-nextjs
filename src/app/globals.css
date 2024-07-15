@@ -35,5 +35,14 @@ body {
 }
 
 .slide img {
-  object-fit: contain;
+  object-fit: cover;
+}
+
+.slide {
+  /* min-width: 25vw !important; */
+}
+
+.slide.selected {
+  /* height: 100% !important; */
+  /* min-width: 50vw !important; */
 }
