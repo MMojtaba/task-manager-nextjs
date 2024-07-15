@@ -23,14 +23,17 @@ export default function Page() {
   };
 
   return (
-    <Slider {...settings}>
-      {images.map((image, index) => {
-        return (
-          <div key={index}>
-            <img src={image} />
-          </div>
-        );
-      })}
-    </Slider>
+    <>
+      <h1>Not here!</h1>
+      <Slider {...settings}>
+        {images.map((image, index) => {
+          return (
+            <div key={index}>
+              <img src={image} />
+            </div>
+          );
+        })}
+      </Slider>
+    </>
   );
 }
