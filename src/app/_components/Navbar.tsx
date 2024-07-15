@@ -54,12 +54,12 @@ export default function Navbar() {
       <div className="flex-none">
         <button
           className="btn btn-ghost mx-2 text-xl"
-          onClick={() => {
-            authLogout();
+          onClick={async () => {
+            await authLogout();
             router.push("/");
           }}
         >
-          Signout
+          Logout
         </button>
         {navContentRight.map((el, index) => {
           return (
