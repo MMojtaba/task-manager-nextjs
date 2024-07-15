@@ -20,6 +20,10 @@ export default function Navbar() {
       path: "/calendar",
       title: "Calendar",
     },
+    {
+      path: "/images",
+      title: "Images",
+    },
   ];
 
   const navContentRight = [
