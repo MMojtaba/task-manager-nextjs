@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { authLogout } from "../auth/authActions";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function AuthButton() {
   const session = useSession();
@@ -14,7 +14,8 @@ export default function AuthButton() {
       className="btn btn-accent"
       onClick={async () => {
         await authLogout();
-      }}>
+      }}
+    >
       {session.data?.user?.email} - Sign Out
     </button>
   ) : (
@@ -22,7 +23,8 @@ export default function AuthButton() {
       className="btn btn-accent"
       onClick={() => {
         router.push("/login");
-      }}>
+      }}
+    >
       Sign In
     </button>
   );

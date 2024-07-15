@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { authLogout } from "../auth/authActions";
 
 export default function Navbar() {
@@ -33,6 +33,8 @@ export default function Navbar() {
     },
   ];
 
+  const router = useRouter();
+
   return (
     <nav className="navbar">
       <div className="flex-1">
@@ -52,7 +54,10 @@ export default function Navbar() {
       <div className="flex-none">
         <button
           className="btn btn-ghost mx-2 text-xl"
-          onClick={() => authLogout()}
+          onClick={() => {
+            authLogout();
+            router.push("/");
+          }}
         >
           Signout
         </button>
