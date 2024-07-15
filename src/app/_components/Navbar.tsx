@@ -21,7 +21,7 @@ export default function Navbar() {
       title: "Calendar",
     },
     {
-      path: "/images",
+      path: "/images/responsive",
       title: "Images",
     },
   ];
