@@ -7,7 +7,7 @@ export default function Page() {
   const imagePaths = getImages();
   return (
     <>
-      <div>
+      <div className="h-full">
         <MyCarousel images={imagePaths} />
       </div>
     </>

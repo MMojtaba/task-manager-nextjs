@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <>
       <div className="flex flex-row gap-4">
-        <div className="w-1/2">
+        <div className="h-[20rem] w-1/2">
           <MyCarousel images={images} single={true} />
         </div>
         <div className="w-1/2">
