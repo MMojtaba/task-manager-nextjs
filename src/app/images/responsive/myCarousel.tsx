@@ -26,7 +26,11 @@ export default function MyCarousel({ images, single = false }: Props) {
       {images.map((image, index) => {
         return (
           //   <div key={index} className="tmpDiv2">
-          <img key={index} src={image} className="" />
+          <img
+            key={index}
+            src={image}
+            className={single ? "object-contain" : "object-cover"}
+          />
           //   </div>
         );
       })}

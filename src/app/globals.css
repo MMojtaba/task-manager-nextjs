@@ -35,7 +35,7 @@ body {
 }
 
 .slide img {
-  object-fit: cover;
+  /* object-fit: cover; */
 }
 
 .slide {
