@@ -37,24 +37,24 @@ body {
 }
 
 .tmpI {
-  height: 10rem;
+  height: 100%;
   object-fit: contain !important;
 }
 
 .carousel-root {
-  height: 10rem;
+  height: 100%;
 }
 
 .carousel {
-  height: 10rem;
+  height: 100%;
 }
 
 .slider-wrapper {
-  height: 10rem;
+  height: 100%;
 }
 
 .slider {
-  height: 10rem;
+  height: 100%;
 }
 
 .carousel-root .carousel .carousel-slider .sliders-wrapper .slide img {
