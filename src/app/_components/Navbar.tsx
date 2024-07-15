@@ -31,14 +31,6 @@ export default function Navbar() {
       path: "/register",
       title: "Register",
     },
-    {
-      path: "/api/auth/signin",
-      title: "Login2",
-    },
-    {
-      path: "/api/auth/signout",
-      title: "Signout",
-    },
   ];
 
   return (
@@ -47,35 +39,31 @@ export default function Navbar() {
         {navContentLeft.map((el, index) => (
           <Link
             key={index}
-            className={`btn text-xl mx-2 ${
+            className={`btn mx-2 text-xl ${
               pathname === el.path ? "btn-primary" : "btn-ghost"
             }`}
             href={el.path}
-            prefetch={false}>
+            prefetch={false}
+          >
             {el.title}
           </Link>
         ))}
       </div>
       <div className="flex-none">
+        <button
+          className="btn btn-ghost mx-2 text-xl"
+          onClick={() => authLogout()}
+        >
+          Signout
+        </button>
         {navContentRight.map((el, index) => {
-          if (el.title === "Signout") {
-            return (
-              <button
-                key={index}
-                className="btn btn-primary"
-                onClick={() => authLogout()}>
-                Signout
-              </button>
-            );
-          }
           return (
             <Link
               key={index}
-              className={`btn text-xl mx-2 ${
-                pathname === el.path ? "btn-primary" : "btn-ghost"
-              }`}
+              className="btn btn-ghost mx-2 text-xl"
               href={el.path}
-              prefetch={false}>
+              prefetch={false}
+            >
               {el.title}
             </Link>
           );
