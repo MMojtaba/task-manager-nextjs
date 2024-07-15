@@ -25,3 +25,27 @@ body {
     text-wrap: balance;
   }
 }
+
+.tmpDiv {
+}
+
+.tmpC {
+}
+
+.tmpDiv2 {
+  /* height: 10rem; */
+}
+
+.tmpI {
+  /* object-fit: cover !important; */
+  max-height: 300px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Works */
+/* .carousel .slide img {
+  max-height: 300px;
+  width: auto;
+  object-fit: cover !important;
+} */
