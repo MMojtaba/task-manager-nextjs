@@ -11,10 +11,10 @@ interface Props {
 export default function MyCarousel({ images, single = false }: Props) {
   return (
     <Carousel
-      className="tmpC"
+      className=""
       autoPlay={false}
       centerMode={!single}
-      centerSlidePercentage={40}
+      centerSlidePercentage={80}
       axis="horizontal"
       showStatus={true}
       showIndicators={true}
@@ -25,7 +25,7 @@ export default function MyCarousel({ images, single = false }: Props) {
       {images.map((image, index) => {
         return (
           //   <div key={index} className="tmpDiv2">
-          <img key={index} src={image} className="tmpI" />
+          <img key={index} src={image} className="" />
           //   </div>
         );
       })}

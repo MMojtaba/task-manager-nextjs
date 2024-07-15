@@ -26,53 +26,14 @@ body {
   }
 }
 
-.tmpDiv {
-}
-
-.tmpC {
-}
-
-.tmpDiv2 {
-  /* height: 10rem; */
-}
-
-.tmpI {
-  height: 100%;
-  object-fit: contain !important;
-}
-
-.carousel-root {
+.carousel-root,
+.carousel,
+.slider-wrapper,
+.slider,
+.slide img {
   height: 100%;
 }
 
-.carousel {
-  height: 100%;
+.slide img {
+  object-fit: contain;
 }
-
-.slider-wrapper {
-  height: 100%;
-}
-
-.slider {
-  height: 100%;
-}
-
-.carousel-root .carousel .carousel-slider .sliders-wrapper .slide img {
-  /* width: 100%; */
-  /* height: 100%; */
-  /* height: 3rem; */
-  /* max-height: 5rem; */
-  /* width: auto; */
-  /* object-fit: contain !important; */
-}
-
-/* .carousel .slide img {
-  object-fit: contain !important;
-} */
-
-/* Works */
-/* .carousel .slide img {
-  max-height: 300px;
-  width: auto;
-  object-fit: contain !important;
-} */
