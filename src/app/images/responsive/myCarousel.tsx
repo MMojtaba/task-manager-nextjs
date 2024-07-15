@@ -3,18 +3,23 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-export default function MyCarousel({ images }: { images: string[] }) {
+interface Props {
+  images: string[];
+  single: boolean;
+}
+
+export default function MyCarousel({ images, single = false }: Props) {
   return (
     <div className="tmpDiv">
       <Carousel
         className="tmpC"
         autoPlay={false}
-        centerMode={true}
+        centerMode={!single}
         centerSlidePercentage={40}
         axis="horizontal"
         showStatus={true}
         showIndicators={true}
-        showThumbs={true}
+        showThumbs={single}
         swipeable={false}
         width={"100%"}
       >
