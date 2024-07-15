@@ -8,11 +8,7 @@ export const BASE_PATH = "/api/auth";
 const authOptions: NextAuthConfig = {
   providers: [
     Credentials({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "Barry" },
-        password: { label: "Password", type: "password" },
-      },
+      name: "credentials",
       //TODO TYPE
       async authorize(credentials): Promise<any | null> {
         await dbConnect();
@@ -21,17 +17,21 @@ const authOptions: NextAuthConfig = {
           email: credentials.email,
           password: credentials.password,
         });
-        console.log("in signin", user);
-        if (user) return user;
-        else return null;
+        if (user) {
+          console.log("authorizedx");
+          return user;
+        } else {
+          console.log("not authorizedx");
+          return null;
+        }
       },
     }),
   ],
   basePath: BASE_PATH,
   secret: process.env.AUTH_SECRET,
-  // pages: {
-  //   signIn: "/login",
-  // },
+  pages: {
+    signIn: "/login",
+  },
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

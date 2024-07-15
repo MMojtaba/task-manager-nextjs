@@ -1,6 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 
-import { BASE_PATH, auth } from "../auth/auth";
+import { BASE_PATH, auth } from "@/app/auth/auth";
 
 import AuthButtonClient from "./AuthButton.client";
 
@@ -15,7 +15,7 @@ export default async function AuthButton() {
 
   return (
     <SessionProvider basePath={BASE_PATH} session={session}>
-      <AuthButtonClient />
+      {/* <AuthButtonClient /> */}
     </SessionProvider>
   );
 }
