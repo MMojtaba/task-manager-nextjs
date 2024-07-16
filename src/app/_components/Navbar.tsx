@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authLogout, checkLoggedIn } from "../auth/authActions";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -66,6 +68,7 @@ export default function Navbar() {
             }}
           >
             Logout
+            <FontAwesomeIcon icon={faDoorOpen} />
           </button>
         ) : (
           <>
