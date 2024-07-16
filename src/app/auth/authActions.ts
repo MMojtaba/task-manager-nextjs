@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn, signOut } from "./auth";
+import { auth, signIn, signOut } from "./auth";
 
 export async function authLogin(formData: FormData) {
   const email = formData.get("email");
@@ -18,4 +18,11 @@ export async function authLogin(formData: FormData) {
 
 export async function authLogout() {
   await signOut();
+}
+
+export async function checkLoggedIn() {
+  const session = await auth();
+
+  if (session?.user) return true;
+  else return false;
 }

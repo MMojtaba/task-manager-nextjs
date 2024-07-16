@@ -2,10 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { authLogout } from "../auth/authActions";
+import { authLogout, checkLoggedIn } from "../auth/authActions";
+import { useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  checkLoggedIn().then((res) => setIsLoggedIn(res));
 
   const navContentLeft = [
     {
@@ -52,27 +57,30 @@ export default function Navbar() {
         ))}
       </div>
       <div className="flex-none">
-        <button
-          className="btn btn-ghost mx-2 text-xl"
-          onClick={async () => {
-            await authLogout();
-            router.push("/");
-          }}
-        >
-          Logout
-        </button>
-        {navContentRight.map((el, index) => {
-          return (
+        {isLoggedIn ? (
+          <button
+            className="btn btn-ghost mx-2 text-xl"
+            onClick={async () => {
+              await authLogout();
+              router.push("/");
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
             <Link
-              key={index}
               className="btn btn-ghost mx-2 text-xl"
-              href={el.path}
+              href="/register"
               prefetch={false}
             >
-              {el.title}
+              Register
             </Link>
-          );
-        })}
+            <Link className="btn btn-ghost mx-2 text-xl" href="/login">
+              Login
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
