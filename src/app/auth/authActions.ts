@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 
 export async function authLogin(formData: FormData) {
@@ -14,14 +15,19 @@ export async function authLogin(formData: FormData) {
     password: password,
     redirectTo: "/",
   });
+
+  // revalidateTag("login");
 }
 
 export async function authLogout() {
   await signOut();
+  // revalidateTag("login");
 }
 
 export async function checkLoggedIn() {
   const session = await auth();
+
+  // revalidateTag("login");
 
   if (session?.user) return true;
   else return false;

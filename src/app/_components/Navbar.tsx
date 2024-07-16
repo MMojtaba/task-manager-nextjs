@@ -3,16 +3,30 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { authLogout, checkLoggedIn } from "../auth/authActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { revalidateTag } from "next/cache";
 
 export default function Navbar() {
   const pathname = usePathname();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  checkLoggedIn().then((res) => setIsLoggedIn(res));
+  async function init() {
+    const res = await checkLoggedIn();
+    setIsLoggedIn(res);
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  async function handleLogout() {
+    await authLogout();
+    await init();
+    router.push("/");
+  }
 
   const navContentLeft = [
     {
@@ -60,13 +74,7 @@ export default function Navbar() {
       </div>
       <div className="flex-none">
         {isLoggedIn ? (
-          <button
-            className="btn btn-ghost mx-2 text-xl"
-            onClick={async () => {
-              await authLogout();
-              router.push("/");
-            }}
-          >
+          <button className="btn btn-ghost mx-2 text-xl" onClick={handleLogout}>
             Logout
             <FontAwesomeIcon icon={faDoorOpen} />
           </button>
