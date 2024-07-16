@@ -21,7 +21,7 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" className="">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         <Navbar loggedIn={!!session?.user}></Navbar>
         {children}
