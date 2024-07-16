@@ -1,7 +1,8 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
+import { redirect } from "next/navigation";
 
 export async function authLogin(formData: FormData) {
   const email = formData.get("email");
@@ -10,18 +11,28 @@ export async function authLogin(formData: FormData) {
     console.error("Email or password not provided.");
     return;
   }
-  await signIn("credentials", {
-    email: email,
-    password: password,
-    redirectTo: "/",
-  });
 
-  // revalidateTag("login");
+  try {
+    await signIn("credentials", {
+      email: email,
+      password: password,
+      // redirectTo: "/",
+    });
+    // revalidatePath("login");
+  } catch (err) {
+    //
+  }
+  redirect("/");
 }
 
 export async function authLogout() {
-  await signOut();
-  // revalidateTag("login");
+  try {
+    await signOut();
+    // revalidateTag("login");
+  } catch (err) {
+    console.error("Error logging out.", err);
+  }
+  redirect("/login");
 }
 
 export async function checkLoggedIn() {
