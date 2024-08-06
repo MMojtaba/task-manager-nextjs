@@ -7,8 +7,6 @@ export const config = {
 };
 
 export default auth(async (req) => {
-  console.log("in middleware");
-  // await dbConnect();
   const reqUrl = new URL(req.url);
   if (!req.auth && !["/login", "/register"].includes(reqUrl?.pathname)) {
     console.log("not auth");
