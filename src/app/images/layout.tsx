@@ -17,6 +17,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Link className="btn btn-primary mx-2" href="/images/reactslick">
           React Slick
         </Link>
+        <Link className="btn btn-primary mx-2" href="/images/upload">
+          Upload
+        </Link>
       </div>
       {children}
     </>
