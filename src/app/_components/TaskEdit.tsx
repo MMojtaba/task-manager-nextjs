@@ -16,6 +16,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,12 +34,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { createTask } from "../dataAccess/task";
+
+import { PRIORITY, GROUP } from "../models/Task";
 
 export default function TaskEdit() {
   const formSchema = z.object({
     title: z.string().min(1).max(50),
-    description: z.string(),
+    description: z.string().optional(),
     dueDate: z.date(),
+    priority: z.nativeEnum(PRIORITY, { message: "Please select a priority" }),
+    group: z.nativeEnum(GROUP, { message: "Please select a group" }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,11 +53,18 @@ export default function TaskEdit() {
       title: "",
       description: "",
       dueDate: undefined,
+      priority: PRIORITY.DEFAULT,
+      group: GROUP.OTHER,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    try {
+      const res = await createTask(values);
+    } catch (err) {
+      console.error("Error saving task", err);
+    }
   }
 
   return (
@@ -114,6 +135,56 @@ export default function TaskEdit() {
                   />
                 </PopoverContent>
               </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="priority"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Priority</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Priority" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(PRIORITY).map(([key, priority], index) => (
+                    <SelectItem key={key} value={priority}>
+                      {priority}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="group"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Group</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Priority" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.entries(GROUP).map(([key, groupName], index) => (
+                    <SelectItem key={key} value={groupName}>
+                      {groupName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
