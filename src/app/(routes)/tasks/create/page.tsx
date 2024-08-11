@@ -1,4 +1,4 @@
-import TaskEdit from "@/app/_components/TaskEdit";
+import TaskEdit from "../components/TaskEdit";
 
 export default function Page() {
   return (

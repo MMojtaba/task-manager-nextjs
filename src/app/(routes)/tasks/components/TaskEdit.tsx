@@ -34,9 +34,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { createTask } from "../dataAccess/task";
+import { createTask } from "../../../dataAccess/task";
 
-import { PRIORITY, GROUP } from "../models/Task";
+import { PRIORITY, GROUP } from "../../../models/Task";
 
 export default function TaskEdit() {
   const formSchema = z.object({
