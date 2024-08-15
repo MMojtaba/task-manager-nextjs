@@ -16,6 +16,18 @@ export enum GROUP {
   PERSONAL = "Personal",
 }
 
+export enum TASK_STATUS {
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETE = "COMPLETE",
+  CLOSED = "CLOSED",
+}
+
+export enum TASK_STATUS_TEXT {
+  IN_PROGRESS = "In Progress",
+  COMPLETE = "Complete",
+  CLOSED = "Closed",
+}
+
 export interface ITask {
   _id: ObjectIdType;
   title: string;
@@ -24,6 +36,7 @@ export interface ITask {
   priority: PRIORITY;
   group: GROUP;
   user: ObjectIdType;
+  status: TASK_STATUS;
 }
 
 const TaskSchema = new mongoose.Schema<ITask>({
@@ -33,6 +46,7 @@ const TaskSchema = new mongoose.Schema<ITask>({
   priority: { type: String, enum: PRIORITY, default: PRIORITY.DEFAULT },
   group: { type: String, enum: GROUP, default: GROUP.OTHER },
   user: { type: ObjectId, ref: "User", required: true },
+  status: { type: String, enum: TASK_STATUS, default: TASK_STATUS.IN_PROGRESS },
 });
 
 export default mongoose.models?.Task ||
