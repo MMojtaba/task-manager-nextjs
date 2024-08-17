@@ -4,8 +4,8 @@ import MiniTask from "../../_components/MiniTask";
 import { auth } from "@/app/auth/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import TaskTable from "./components/TaskTable";
 import { getMyTasks } from "@/app/dataAccess/task";
+import TasksMain from "./components/TasksMain";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -27,14 +27,8 @@ export default async function Tasks() {
   await init();
 
   return (
-    <>
-      <h1>Tasks page!</h1>
-      <Button>
-        <Link href="/tasks/create">Create</Link>
-      </Button>
-      <Suspense fallback={<p>Loading task...</p>}>
-        <TaskTable tasks={tasks} />
-      </Suspense>
-    </>
+    <Suspense fallback={<p>Loading task...</p>}>
+      <TasksMain tasks={tasks} />
+    </Suspense>
   );
 }
