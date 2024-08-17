@@ -4,6 +4,7 @@ import { genericHttpResponse } from "@/lib/utils";
 import Task from "../models/Task";
 import { getLoggedInUserId } from "../utils/authUtils";
 import { Types } from "mongoose";
+import { revalidateTag } from "next/cache";
 const ObjectId = Types.ObjectId;
 
 export async function createTask(formValues: any) {
@@ -25,6 +26,8 @@ export async function createTask(formValues: any) {
       user: new ObjectId(userId),
     });
 
+    revalidateTag("task");
+
     return { status: 200, message: "Created task!" };
   } catch (err) {
     console.error("Error creating task", err);
@@ -33,6 +36,7 @@ export async function createTask(formValues: any) {
 }
 
 export async function getMyTasks() {
+  revalidateTag("task");
   try {
     // TODO
     const userId = await getLoggedInUserId();
@@ -55,5 +59,30 @@ export async function getMyTasks() {
   } catch (err) {
     console.error("Error getting my tasks", err);
     return { status: 500, message: "Internal error" };
+  }
+}
+
+export async function removeTask(taskId: string) {
+  const loggedInUID = await getLoggedInUserId();
+  if (!loggedInUID) return genericHttpResponse(401);
+
+  try {
+    const task = await Task.findById(new ObjectId(taskId));
+
+    if (!task) return genericHttpResponse(404);
+
+    if (task.user.toString() !== loggedInUID) {
+      console.warn("User doesn't have access to this task", loggedInUID);
+      return genericHttpResponse(401);
+    }
+
+    await Task.findByIdAndDelete(task._id);
+
+    revalidateTag("task");
+
+    return genericHttpResponse(200);
+  } catch (err) {
+    console.error("Error removing task", err);
+    return genericHttpResponse(500);
   }
 }

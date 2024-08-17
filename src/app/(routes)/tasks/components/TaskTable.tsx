@@ -9,9 +9,7 @@ export default function TaskTable({ tasks }: Props) {
   return (
     <div className="px-4">
       {tasks?.length ? (
-        tasks.map((task, index) => (
-          <TaskRow key={task._id.toString()} task={task} />
-        ))
+        tasks.map((task) => <TaskRow key={task._id.toString()} task={task} />)
       ) : (
         <div>No tasks</div>
       )}

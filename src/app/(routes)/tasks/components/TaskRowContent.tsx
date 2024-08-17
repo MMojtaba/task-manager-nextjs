@@ -1,3 +1,4 @@
+import { removeTask } from "@/app/dataAccess/task";
 import { ITask } from "@/app/models/Task";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,17 @@ interface Props {
 }
 
 export default function TaskRowContent({ task }: Props) {
+  async function onTaskRemove() {
+    try {
+      const res = await removeTask(task._id);
+      if (res.status !== 200) throw new Error(res.message);
+      // TODO: toast
+    } catch (err) {
+      console.error("Error removing task", err);
+      // TODO: toast
+    }
+  }
+
   return (
     <div className="rounded-2xl border border-white p-4">
       <span className="flex gap-4">
@@ -22,7 +34,7 @@ export default function TaskRowContent({ task }: Props) {
       </span>
       <div className="flex gap-2">
         <Button className="w-24">Edit</Button>
-        <Button className="w-24" variant="destructive">
+        <Button className="w-24" variant="destructive" onClick={onTaskRemove}>
           Remove
         </Button>
       </div>
