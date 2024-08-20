@@ -60,6 +60,7 @@ export default function TaskEdit({ task, onClose }: Props) {
     defaultValues: {
       title: task?.title ?? "",
       description: task?.description ?? "",
+      // TODO: can't change due date when editing task
       dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
       priority: task?.priority ?? PRIORITY.DEFAULT,
       group: task?.group ?? GROUP.OTHER,
@@ -215,7 +216,9 @@ export default function TaskEdit({ task, onClose }: Props) {
           )}
         />
         {/* TODO: add loading */}
-        <Button type="submit">{task ? "Update" : "Create"}</Button>
+        <Button className="ml-auto flex" type="submit">
+          {task ? "Update" : "Create"}
+        </Button>
       </form>
     </Form>
   );
