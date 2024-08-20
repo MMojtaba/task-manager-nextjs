@@ -16,7 +16,7 @@ export function genericHttpResponse(status: number) {
     case 500:
       return { status: 500, message: "Internal error" };
     case 400:
-      return { status: 400, message: "Bad required" };
+      return { status: 400, message: "Bad request" };
     default:
       return { status: status, message: "Error" };
   }

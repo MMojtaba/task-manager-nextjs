@@ -6,6 +6,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 
 import {
   Form,
@@ -34,11 +35,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { createTask } from "../../../dataAccess/task";
+import { createTask, updateTask } from "../../../dataAccess/task";
 
-import { PRIORITY, GROUP } from "../../../models/Task";
+import { PRIORITY, GROUP, ITask } from "../../../models/Task";
 
-export default function TaskEdit() {
+interface Props {
+  task?: ITask;
+  onClose?: () => void;
+}
+
+export default function TaskEdit({ task, onClose }: Props) {
+  const { toast } = useToast();
+
   const formSchema = z.object({
     title: z.string().min(1).max(50),
     description: z.string().optional(),
@@ -50,20 +58,37 @@ export default function TaskEdit() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      dueDate: undefined,
-      priority: PRIORITY.DEFAULT,
-      group: GROUP.OTHER,
+      title: task?.title ?? "",
+      description: task?.description ?? "",
+      dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
+      priority: task?.priority ?? PRIORITY.DEFAULT,
+      group: task?.group ?? GROUP.OTHER,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     try {
-      const res = await createTask(values);
+      let res;
+      if (task?._id) {
+        values.id = task._id;
+        // TODO: only pass changed values?
+        res = await updateTask(values);
+      } else {
+        res = await createTask(values);
+      }
+
+      if (res.status !== 200) throw new Error(res.message);
+
+      toast({
+        title: "Task updated",
+        description: "Successfully updated the task!",
+      });
+
+      if (onClose) onClose();
     } catch (err) {
       console.error("Error saving task", err);
+      // TODO: toast
     }
   }
 
@@ -189,8 +214,8 @@ export default function TaskEdit() {
             </FormItem>
           )}
         />
-
-        <Button type="submit">Submit</Button>
+        {/* TODO: add loading */}
+        <Button type="submit">{task ? "Update" : "Create"}</Button>
       </form>
     </Form>
   );

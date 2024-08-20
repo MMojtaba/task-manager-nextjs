@@ -5,12 +5,12 @@ import Task from "../models/Task";
 import { getLoggedInUserId } from "../utils/authUtils";
 import { Types } from "mongoose";
 import { revalidateTag } from "next/cache";
+import { TAGS } from "../types/Tags";
+import { CREATE_TASK } from "../types/Forms";
 const ObjectId = Types.ObjectId;
 
-export async function createTask(formValues: any) {
-  // TODO: auth
+export async function createTask(formValues: CREATE_TASK) {
   try {
-    // TOOD NOW
     const userId = await getLoggedInUserId();
 
     if (!userId) return genericHttpResponse(401);
@@ -26,7 +26,7 @@ export async function createTask(formValues: any) {
       user: new ObjectId(userId),
     });
 
-    revalidateTag("task");
+    revalidateTag(TAGS.TASK);
 
     return { status: 200, message: "Created task!" };
   } catch (err) {
@@ -35,8 +35,38 @@ export async function createTask(formValues: any) {
   }
 }
 
+export async function updateTask(formValues: any) {
+  const userId = await getLoggedInUserId();
+
+  if (!userId) return genericHttpResponse(401);
+
+  try {
+    const { id, title, description, dueDate, priority, group } = formValues;
+    if (!id) return genericHttpResponse(400);
+
+    const task = await Task.findById(new ObjectId(id));
+
+    if (!task) return genericHttpResponse(404);
+
+    const setObj: any = {};
+    if (title) setObj.title = title;
+    if (description) setObj.description = description;
+    if (dueDate) setObj.dueDate = dueDate;
+    if (priority) setObj.priority = priority;
+    if (group) setObj.group = group;
+
+    await Task.findByIdAndUpdate(new ObjectId(id), { $set: setObj });
+
+    revalidateTag(TAGS.TASK);
+    return genericHttpResponse(200);
+  } catch (err) {
+    console.error("Error updating task", err);
+    return genericHttpResponse(500);
+  }
+}
+
 export async function getMyTasks() {
-  revalidateTag("task");
+  revalidateTag(TAGS.TASK);
   try {
     // TODO
     const userId = await getLoggedInUserId();
@@ -78,7 +108,7 @@ export async function removeTask(taskId: string) {
 
     await Task.findByIdAndDelete(task._id);
 
-    revalidateTag("task");
+    revalidateTag(TAGS.TASK);
 
     return genericHttpResponse(200);
   } catch (err) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/nav/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { auth } from "./auth/auth";
@@ -26,7 +27,8 @@ export default async function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <Navbar loggedIn={!!session?.user}></Navbar>
-        {children}
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   );
