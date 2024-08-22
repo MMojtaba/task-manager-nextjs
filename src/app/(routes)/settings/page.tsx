@@ -1,5 +1,5 @@
 import { getUserLabels } from "@/app/dataAccess/label";
-import UserLabelSelector from "./components/UserLabelSelector";
+import UserLabelItem from "./components/UserLabelItem";
 import CreateLabel from "./components/CreateLabelButton";
 
 export default async function Page() {
@@ -17,12 +17,13 @@ export default async function Page() {
   }
 
   return (
-    <>
+    <div className="rounded border border-gray-300 p-4">
+      <h1 className="text-lg font-bold">My Labels</h1>
       {labels.map((label, index) => (
-        <UserLabelSelector key={index} label={label} index={index} />
+        <UserLabelItem key={index} label={label} index={index} />
       ))}
 
       <CreateLabel />
-    </>
+    </div>
   );
 }

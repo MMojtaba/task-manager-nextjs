@@ -90,3 +90,5 @@ export async function removeLabel(name: string) {
     return genericHttpResponse(500);
   }
 }
+
+// TODO: ability to edit label

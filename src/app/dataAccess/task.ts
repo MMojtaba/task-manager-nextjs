@@ -78,7 +78,7 @@ export async function getMyTasks({ status }: { status: TASK_STATUS }) {
     const tasks = await Task.find({
       user: new ObjectId(userId),
       status: status,
-    });
+    }).sort({ dueDate: "desc" });
     if (!tasks.length) {
       console.warn("Not task found for user");
       return { status: 404, message: "No tasks found" };

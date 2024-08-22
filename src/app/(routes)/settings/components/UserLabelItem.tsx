@@ -15,7 +15,7 @@ interface Props {
   index: number;
 }
 
-export default function UserLabelSelector({ label, index }: Props) {
+export default function UserLabelItem({ label, index }: Props) {
   async function handleRemove() {
     try {
       const res = await removeLabel(label);
@@ -29,11 +29,9 @@ export default function UserLabelSelector({ label, index }: Props) {
   }
 
   return (
-    <div className="flex items-center">
-      <h3>
-        {index + 1}. {label}
-      </h3>
-      <Button onClick={handleRemove} variant="ghost">
+    <div className="m-2 flex items-center rounded-xl border border-gray-500 p-2 hover:bg-gray-800">
+      <h3>{label}</h3>
+      <Button onClick={handleRemove} variant="ghost" className="ml-auto">
         <FontAwesomeIcon icon={faTrash} />
       </Button>
     </div>

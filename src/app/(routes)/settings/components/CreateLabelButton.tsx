@@ -13,6 +13,7 @@ export default function CreateLabelButton() {
   async function handleCreate() {
     try {
       const res = await createLabel(newLabelText);
+      setNewLabelText("");
       console.log("res is", res);
     } catch (err) {
       console.error("Error creating label", err);
@@ -20,14 +21,14 @@ export default function CreateLabelButton() {
   }
 
   return (
-    <>
+    <div className="mt-4 flex">
       <Input
         value={newLabelText}
         onInput={(e) => setNewLabelText(e.target.value)}
       />
-      <Button onClick={handleCreate}>
+      <Button onClick={handleCreate} className="ml-2">
         <FontAwesomeIcon icon={faPlus} />
       </Button>
-    </>
+    </div>
   );
 }
