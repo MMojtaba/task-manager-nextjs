@@ -10,15 +10,22 @@ import TaskEdit from "./TaskEdit";
 
 interface Props {
   tasks: ITask[] | undefined;
+  onTabChange: (newTab: TASK_STATUS) => void;
 }
 
 const TASKS_TABS = { ...TASK_STATUS, CREATE: "CREATE" };
 type TASKS_TABS = TASK_STATUS | "CREATE";
 
-export default function TasksMain({ tasks }: Props) {
+export default function TasksMain({ tasks, onTabChange }: Props) {
   const [selectedTab, setSelectedTab] = useState<TASKS_TABS>(
     TASKS_TABS.IN_PROGRESS,
   );
+
+  function handleTabChange(value: string) {
+    setSelectedTab(value as TASKS_TABS);
+
+    if (value !== TASKS_TABS.CREATE) onTabChange(value as TASK_STATUS);
+  }
 
   return (
     <>
@@ -26,7 +33,7 @@ export default function TasksMain({ tasks }: Props) {
         className="mx-1"
         defaultValue={TASKS_TABS.IN_PROGRESS}
         value={selectedTab}
-        onValueChange={(value) => setSelectedTab(value as TASKS_TABS)}
+        onValueChange={handleTabChange}
       >
         <TabsList className="w-full">
           <TabsTrigger className="w-1/4" value={TASKS_TABS.IN_PROGRESS}>

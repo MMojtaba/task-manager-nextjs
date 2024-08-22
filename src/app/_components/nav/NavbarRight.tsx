@@ -1,13 +1,13 @@
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { badgeVariants } from "@/components/ui/badge";
+import NavBarRightLoggedIn from "./NavBarRightLoggedIn";
 
 export default function NavbarRight({ loggedIn }: { loggedIn: boolean }) {
-  console.log("in navbar right");
   return (
     <>
       {loggedIn ? (
-        <LogoutButton />
+        <NavBarRightLoggedIn />
       ) : (
         <>
           <Link

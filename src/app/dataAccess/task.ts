@@ -1,7 +1,7 @@
 "use server";
 
 import { genericHttpResponse } from "@/lib/utils";
-import Task from "../models/Task";
+import Task, { TASK_STATUS } from "../models/Task";
 import { getLoggedInUserId } from "../utils/authUtils";
 import { Types } from "mongoose";
 import { revalidateTag } from "next/cache";
@@ -65,7 +65,7 @@ export async function updateTask(formValues: any) {
   }
 }
 
-export async function getMyTasks() {
+export async function getMyTasks({ status }: { status: TASK_STATUS }) {
   revalidateTag(TAGS.TASK);
   try {
     // TODO
@@ -75,7 +75,10 @@ export async function getMyTasks() {
       return { status: 401, message: "Unauthorized" };
     }
 
-    const tasks = await Task.find({ user: new ObjectId(userId) });
+    const tasks = await Task.find({
+      user: new ObjectId(userId),
+      status: status,
+    });
     if (!tasks.length) {
       console.warn("Not task found for user");
       return { status: 404, message: "No tasks found" };
