@@ -3,9 +3,6 @@
 import { authLogin } from "@/app/auth/authActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Metadata } from "next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

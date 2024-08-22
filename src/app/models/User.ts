@@ -6,12 +6,12 @@ export interface IUser {
   labels: string[];
 }
 
-// const defaultLabels = ["Other", "Personal", "Work", "School"];
+const defaultLabels = ["Other", "Personal", "Work", "School"];
 
 const UserSchema = new mongoose.Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  labels: { type: [String], default: [] },
+  labels: { type: [String], default: defaultLabels },
 });
 
 export default mongoose.models?.User ||
