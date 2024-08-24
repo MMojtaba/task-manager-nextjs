@@ -12,7 +12,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -20,7 +19,6 @@ import { formatDate } from "@/lib/utils";
 import TaskRowContent from "./TaskRowContent";
 import { Badge } from "@/components/ui/badge";
 import { TASK_STATUS, TASK_STATUS_TEXT } from "@/app/models/Task";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
@@ -34,8 +32,6 @@ export default function TaskRow({ task }: Props) {
   const [isStatusSelectOpen, setIsStatusSelectOpen] = useState<boolean>(false);
 
   async function handleStatusChange(status: TASK_STATUS) {
-    console.log("here ", status);
-
     try {
       const res = await changeTaskStatus(task._id, status);
       if (res.status !== 200) throw new Error(res.message);
