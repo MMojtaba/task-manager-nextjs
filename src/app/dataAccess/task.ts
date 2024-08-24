@@ -7,6 +7,7 @@ import { Types } from "mongoose";
 import { revalidateTag } from "next/cache";
 import { TAGS } from "../types/Tags";
 import { CREATE_TASK } from "../types/Forms";
+import { z } from "zod";
 const ObjectId = Types.ObjectId;
 
 export async function createTask(formValues: CREATE_TASK) {
@@ -116,6 +117,31 @@ export async function removeTask(taskId: string) {
     return genericHttpResponse(200);
   } catch (err) {
     console.error("Error removing task", err);
+    return genericHttpResponse(500);
+  }
+}
+
+export async function changeTaskStatus(id: string, newStatus: TASK_STATUS) {
+  // TODO: ok to throw error in server action? (research and run in build mode)
+
+  const loggedInUID = await getLoggedInUserId();
+  if (!loggedInUID) return genericHttpResponse(401);
+
+  if (!newStatus) return genericHttpResponse(400);
+
+  z.string().parse(newStatus);
+
+  try {
+    await Task.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { status: newStatus },
+    );
+
+    revalidateTag(TAGS.TASK);
+
+    return genericHttpResponse(200);
+  } catch (err) {
+    console.error("Error changing task status", err);
     return genericHttpResponse(500);
   }
 }

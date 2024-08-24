@@ -2,10 +2,6 @@
 
 // import { Metadata } from "next";
 import { Suspense, useEffect, useState } from "react";
-import MiniTask from "../../_components/MiniTask";
-import { auth } from "@/app/auth/auth";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { getMyTasks } from "@/app/dataAccess/task";
 import TasksMain from "./components/TasksMain";
 import { TASK_STATUS } from "@/app/models/Task";
@@ -37,6 +33,8 @@ export default function Tasks() {
   useEffect(() => {
     init(TASK_STATUS.IN_PROGRESS);
   }, []);
+
+  // TODO: use a context to pass to TaskRow, so it can say that we should splice tasks (or reinit?)
 
   return (
     <Suspense fallback={<p>Loading task...</p>}>
