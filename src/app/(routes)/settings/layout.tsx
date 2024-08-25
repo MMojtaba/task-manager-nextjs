@@ -19,10 +19,12 @@ export default function Layout({
   return (
     <div className="m-2 flex gap-2">
       <NavigationMenu orientation="vertical">
-        <NavigationMenuList className="flex flex-col rounded border p-2 pb-96">
-          <NavigationMenuItem>
+        <NavigationMenuList className="flex flex-col rounded border border-slate-400 bg-slate-700 p-2 pb-96">
+          <NavigationMenuItem className="">
             <Link href="/settings" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle() + " bg-inherit"}
+              >
                 Personalization
               </NavigationMenuLink>
             </Link>
@@ -30,7 +32,9 @@ export default function Layout({
 
           <NavigationMenuItem>
             <Link href="/settings/update-password" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle() + " bg-inherit"}
+              >
                 Update Password
               </NavigationMenuLink>
             </Link>
