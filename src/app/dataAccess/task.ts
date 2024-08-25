@@ -16,14 +16,14 @@ export async function createTask(formValues: CREATE_TASK) {
 
     if (!userId) return genericHttpResponse(401);
 
-    const { title, description, dueDate, priority, group } = formValues;
+    const { title, description, dueDate, priority, label } = formValues;
 
     await Task.create({
       title,
       description,
       dueDate,
       priority,
-      group,
+      label,
       user: new ObjectId(userId),
     });
 
@@ -42,7 +42,7 @@ export async function updateTask(formValues: any) {
   if (!userId) return genericHttpResponse(401);
 
   try {
-    const { id, title, description, dueDate, priority, group } = formValues;
+    const { id, title, description, dueDate, priority, label } = formValues;
     if (!id) return genericHttpResponse(400);
 
     const task = await Task.findById(new ObjectId(id));
@@ -54,7 +54,7 @@ export async function updateTask(formValues: any) {
     if (description) setObj.description = description;
     if (dueDate) setObj.dueDate = dueDate;
     if (priority) setObj.priority = priority;
-    if (group) setObj.group = group;
+    if (label) setObj.lable = label;
 
     await Task.findByIdAndUpdate(new ObjectId(id), { $set: setObj });
 

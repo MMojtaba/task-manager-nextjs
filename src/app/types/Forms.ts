@@ -1,10 +1,10 @@
-import { GROUP, PRIORITY } from "../models/Task";
+import { PRIORITY } from "../models/Task";
 
 export interface CREATE_TASK {
   title: string;
   description: string;
   dueDate: Date;
-  group: GROUP;
+  label: string;
   priority: PRIORITY;
 }
 

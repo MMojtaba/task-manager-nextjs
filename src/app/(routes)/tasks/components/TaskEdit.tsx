@@ -37,7 +37,9 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { createTask, updateTask } from "../../../dataAccess/task";
 
-import { PRIORITY, GROUP, ITask } from "../../../models/Task";
+import { PRIORITY, ITask } from "../../../models/Task";
+import { getUserLabels } from "@/app/dataAccess/label";
+import { useEffect, useState } from "react";
 
 interface Props {
   task?: ITask;
@@ -47,12 +49,29 @@ interface Props {
 export default function TaskEdit({ task, onClose }: Props) {
   const { toast } = useToast();
 
+  const [labels, setLabels] = useState<string[]>([]);
+
+  async function init() {
+    try {
+      const res = await getUserLabels();
+      if (res.status !== 200) throw new Error(res.message);
+      setLabels(res.data);
+    } catch (err) {
+      console.error("Error init", err);
+      // TODO: show toast
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
   const formSchema = z.object({
     title: z.string().min(1).max(50),
     description: z.string().optional(),
     dueDate: z.date(),
     priority: z.nativeEnum(PRIORITY, { message: "Please select a priority" }),
-    group: z.nativeEnum(GROUP, { message: "Please select a group" }),
+    label: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,7 +82,7 @@ export default function TaskEdit({ task, onClose }: Props) {
       // TODO: can't change due date when editing task
       dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
       priority: task?.priority ?? PRIORITY.DEFAULT,
-      group: task?.group ?? GROUP.OTHER,
+      label: task?.label ?? undefined,
     },
   });
 
@@ -193,7 +212,7 @@ export default function TaskEdit({ task, onClose }: Props) {
 
         <FormField
           control={form.control}
-          name="group"
+          name="label"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Group</FormLabel>
@@ -204,9 +223,9 @@ export default function TaskEdit({ task, onClose }: Props) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.entries(GROUP).map(([key, groupName], index) => (
-                    <SelectItem key={key} value={groupName}>
-                      {groupName}
+                  {labels.map((label: string) => (
+                    <SelectItem key={label} value={label}>
+                      {label}
                     </SelectItem>
                   ))}
                 </SelectContent>

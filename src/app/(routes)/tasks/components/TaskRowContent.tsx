@@ -46,9 +46,11 @@ export default function TaskRowContent({ task }: Props) {
           <Badge className="w-20 justify-center bg-red-500">
             {task.priority}
           </Badge>
-          <Badge className="w-20 justify-center bg-blue-400">
-            {task.group}
-          </Badge>
+          {!!task.label && (
+            <Badge className="w-20 justify-center bg-blue-400">
+              {task.label}
+            </Badge>
+          )}
         </span>
         <span className="my-4 flex gap-4">
           <h3 className="text-base font-bold">Description</h3>
