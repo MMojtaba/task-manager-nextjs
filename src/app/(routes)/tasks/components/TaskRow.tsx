@@ -75,7 +75,7 @@ export default function TaskRow({ task }: Props) {
               </DropdownMenu>
             </Badge>
             <span>{task.title}</span>
-            <p>x{isStatusSelectOpen}y</p>
+            <p>{isStatusSelectOpen}</p>
             <span className="ml-auto text-sm">
               Due {formatDate(task.dueDate)}
             </span>

@@ -3,7 +3,7 @@ import NavbarRight from "./NavbarRight";
 
 export default function Navbar({ loggedIn }: { loggedIn: boolean }) {
   return (
-    <nav className="m-1 flex">
+    <nav className="flex bg-slate-700 p-2">
       <div className="flex-1">
         <NavbarLeft />
       </div>

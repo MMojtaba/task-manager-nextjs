@@ -6,25 +6,22 @@ import { getMyTasks } from "./dataAccess/task";
 import TaskRow from "./(routes)/tasks/components/TaskRow";
 
 export default async function Home() {
-  const session = await auth();
-
-  let labels: string[] = [];
   let tasks: ITask[] = [];
 
   try {
-    // TODO: filter by label
     const resTasks = await getMyTasks({ status: TASK_STATUS.IN_PROGRESS });
     if (resTasks.status === 200) tasks = resTasks.data;
-
-    const resLabels = await getUserLabels();
+    else throw new Error(resTasks.message);
   } catch (err) {
     console.error("Error getting home page data");
+    tasks: [];
   }
 
   return (
-    <main>
+    <main className="m-8 rounded-xl">
+      <h2 className="text-lg font-bold">Upcoming...</h2>
       {tasks.map((task) => (
-        <TaskRow key={task._id} task={task} />
+        <TaskRow key={task._id.toString()} task={task} />
       ))}
     </main>
   );

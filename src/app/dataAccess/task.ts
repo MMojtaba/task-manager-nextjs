@@ -66,7 +66,16 @@ export async function updateTask(formValues: any) {
   }
 }
 
-export async function getMyTasks({ status }: { status: TASK_STATUS }) {
+export async function getMyTasks({
+  status,
+  label,
+}: {
+  status: TASK_STATUS;
+  label: string;
+}) {
+  z.nativeEnum(TASK_STATUS).parse(status);
+  z.string().parse(label);
+
   revalidateTag(TAGS.TASK);
   try {
     // TODO
@@ -76,10 +85,14 @@ export async function getMyTasks({ status }: { status: TASK_STATUS }) {
       return { status: 401, message: "Unauthorized" };
     }
 
-    const tasks = await Task.find({
+    const findQuery: any = {
       user: new ObjectId(userId),
       status: status,
-    }).sort({ dueDate: "desc" });
+    };
+
+    if (label !== "All") findQuery.label = label;
+
+    const tasks = await Task.find(findQuery).sort({ dueDate: "desc" });
     if (!tasks.length) {
       console.warn("Not task found for user");
       return { status: 404, message: "No tasks found" };

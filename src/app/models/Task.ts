@@ -9,12 +9,6 @@ export enum PRIORITY {
   MEDIUM = "Medium",
   HIGH = "High",
 }
-export enum GROUP {
-  OTHER = "Other",
-  WORK = "Work",
-  SCHOOL = "School",
-  PERSONAL = "Personal",
-}
 
 export enum TASK_STATUS {
   IN_PROGRESS = "IN_PROGRESS",
@@ -44,7 +38,7 @@ const TaskSchema = new mongoose.Schema<ITask>({
   description: { type: String },
   dueDate: { type: Date, required: true },
   priority: { type: String, enum: PRIORITY, default: PRIORITY.DEFAULT },
-  label: { type: String, enum: GROUP, default: null },
+  label: { type: String, default: null },
   user: { type: ObjectId, ref: "User", required: true },
   status: { type: String, enum: TASK_STATUS, default: TASK_STATUS.IN_PROGRESS },
 });

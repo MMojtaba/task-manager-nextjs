@@ -11,7 +11,9 @@ export default function TaskTable({ tasks }: Props) {
       {tasks?.length ? (
         tasks.map((task) => <TaskRow key={task._id.toString()} task={task} />)
       ) : (
-        <div className="mt-2 flex justify-center">No tasks...</div>
+        <div className="mt-2 flex justify-center">
+          {tasks ? "No tasks..." : "Loading..."}
+        </div>
       )}
     </div>
   );
