@@ -1,6 +1,5 @@
 "use server";
 
-import { genericHttpResponse } from "@/lib/utils";
 import { getLoggedInUserId } from "../utils/authUtils";
 import User from "../models/User";
 import { Types } from "mongoose";
@@ -8,6 +7,7 @@ import { z } from "zod";
 import { revalidateTag } from "next/cache";
 import { TAGS } from "../types/Tags";
 import Task from "../models/Task";
+import { genericHttpResponse } from "../utils/utils";
 const ObjectId = Types.ObjectId;
 
 export async function getUserLabels() {

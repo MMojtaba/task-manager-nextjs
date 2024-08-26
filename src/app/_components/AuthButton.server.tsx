@@ -1,3 +1,5 @@
+// NOT USED
+
 import { SessionProvider } from "next-auth/react";
 
 import { BASE_PATH, auth } from "@/app/auth/auth";

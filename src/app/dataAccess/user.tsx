@@ -2,12 +2,12 @@
 
 import User from "../models/User";
 import { z } from "zod";
-import { genericHttpResponse } from "@/lib/utils";
 import {
   checkPasswords,
   getLoggedInUserId,
   hashPassword,
 } from "../utils/authUtils";
+import { genericHttpResponse } from "../utils/utils";
 
 interface PropsCreateUser {
   email: string;
