@@ -17,12 +17,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Page() {
-  // TODO NOW: compare passwords match
-  const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(3),
-    confirmPassword: z.string(),
-  });
+  const formSchema = z
+    .object({
+      email: z.string().email(),
+      password: z.string().min(3),
+      confirmPassword: z.string(),
+    })
+    .refine((values) => values.password === values.confirmPassword, {
+      message: "Password must match",
+      path: ["confirmPassword"],
+    });
 
   const registerForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
