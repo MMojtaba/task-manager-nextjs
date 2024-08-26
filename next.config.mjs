@@ -2,6 +2,8 @@
 const nextConfig = {
   experimental: {
     instrumentationHook: true,
+    // appDir: true,
+    // serverComponentsExternalPackages: ["mongoose"],
   },
   // TODO: fix errors and remove this
   typescript: {
