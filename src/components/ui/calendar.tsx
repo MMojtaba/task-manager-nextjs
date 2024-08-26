@@ -36,7 +36,8 @@ function Calendar({
         head_row: "flex",
         head_cell: `text-muted-foreground rounded-md w-${dims} font-normal text-[0.8rem] ${props.large ? "text-start" : ""}`,
         row: "flex w-full mt-2",
-        cell: `h-${dims} w-${dims} ${props.large ? "text-start" : "text-center"} text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20`,
+        // Needed to add h-32 w-32, because when server stops, it doesn't show correctly (I think tailwind doesn't compile h-32 since it's dynamic otherwise)
+        cell: `h-${dims} w-${dims} h-32 w-32 ${props.large ? "text-start" : "text-center"} text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20`,
         day: cn(
           buttonVariants({ variant: "ghost" }),
           "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
