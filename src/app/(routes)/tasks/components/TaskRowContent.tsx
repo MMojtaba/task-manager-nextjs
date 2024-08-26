@@ -71,7 +71,7 @@ export default function TaskRowContent({ task }: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Task</DialogTitle>
-            <DialogDescription className="">
+            <DialogDescription asChild>
               <TaskEdit task={task} onClose={() => setEditOpen(false)} />
             </DialogDescription>
           </DialogHeader>
