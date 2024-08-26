@@ -71,10 +71,10 @@ export async function getMyTasks({
   label,
 }: {
   status: TASK_STATUS;
-  label: string;
+  label?: string;
 }) {
   z.nativeEnum(TASK_STATUS).parse(status);
-  z.string().parse(label);
+  z.string().optional().parse(label);
 
   revalidateTag(TAGS.TASK);
   try {

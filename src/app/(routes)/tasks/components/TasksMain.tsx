@@ -88,20 +88,22 @@ export default function TasksMain() {
         </TabsList>
       </Tabs>
 
-      <Tabs
-        className="m-2 mx-24"
-        defaultValue={"All"}
-        value={selectedLabel}
-        onValueChange={handleLabelTabChange}
-      >
-        <TabsList className="w-full">
-          {labels.map((label) => (
-            <TabsTrigger key={label} className="" value={label}>
-              {label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      {selectedTab !== TASKS_TABS.CREATE && (
+        <Tabs
+          className="m-2 mx-24"
+          defaultValue={"All"}
+          value={selectedLabel}
+          onValueChange={handleLabelTabChange}
+        >
+          <TabsList className="w-full">
+            {labels.map((label) => (
+              <TabsTrigger key={label} className="" value={label}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      )}
       {selectedTab === TASKS_TABS.CREATE ? (
         <TaskEdit />
       ) : (
