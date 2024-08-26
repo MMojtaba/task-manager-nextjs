@@ -1,5 +1,5 @@
 import { getMyTasks } from "@/app/dataAccess/task";
-import { ITask } from "@/app/models/Task";
+import { ITask, TASK_STATUS } from "@/app/models/Task";
 import { Metadata } from "next";
 import CalendarMain from "./components/CalendarMain";
 
@@ -12,7 +12,7 @@ export default async function Calendar() {
 
   try {
     // TODO: how to make {} optional (so i don't have to provide it)
-    const res = await getMyTasks({});
+    const res = await getMyTasks({ status: TASK_STATUS.IN_PROGRESS });
 
     if (res.status === 200) tasks = res.data;
     else throw new Error(res.message);

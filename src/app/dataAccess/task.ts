@@ -134,8 +134,13 @@ export async function removeTask(taskId: string) {
   }
 }
 
-export async function changeTaskStatus(id: string, newStatus: TASK_STATUS) {
+export async function changeTaskStatus(
+  id: string | undefined,
+  newStatus: TASK_STATUS,
+) {
   // TODO: ok to throw error in server action? (research and run in build mode)
+
+  if (!id || !newStatus) return genericHttpResponse(400);
 
   const loggedInUID = await getLoggedInUserId();
   if (!loggedInUID) return genericHttpResponse(401);
@@ -143,6 +148,7 @@ export async function changeTaskStatus(id: string, newStatus: TASK_STATUS) {
   if (!newStatus) return genericHttpResponse(400);
 
   z.string().parse(newStatus);
+  z.string().parse(id);
 
   try {
     await Task.findOneAndUpdate(
