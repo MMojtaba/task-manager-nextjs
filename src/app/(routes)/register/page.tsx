@@ -34,6 +34,7 @@ export default function Page() {
     });
 
   const registerForm = useForm<z.infer<typeof formSchema>>({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -43,11 +44,16 @@ export default function Page() {
   });
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    const res = await createUser(values);
-    if (res.status === 200) {
-      toast({ title: "Account created!" });
-      router.push("/login");
-    } else {
+    try {
+      const res = await createUser(values);
+      if (res.status === 200) {
+        toast({ title: "Account created!" });
+        router.push("/login");
+      } else {
+        throw new Error(res.message);
+      }
+    } catch (err) {
+      console.error("Error registering", err);
       toast({ title: "Failed to create account", variant: "destructive" });
     }
   }

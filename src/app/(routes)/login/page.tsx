@@ -32,6 +32,7 @@ export default function Page() {
   });
 
   const loginForm = useForm<z.infer<typeof formSchema>>({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",

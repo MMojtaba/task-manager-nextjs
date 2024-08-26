@@ -5,20 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function genericHttpResponse(status: number) {
+export function genericHttpResponse(status: number, msg?: string | undefined) {
   switch (status) {
     case 200:
-      return { status: 200, message: "Success" };
+      return { status: 200, message: msg ?? "Success" };
     case 404:
-      return { status: 404, message: "Not found" };
+      return { status: 404, message: msg ?? "Not found" };
     case 401:
-      return { status: 401, message: "Unauthorized" };
+      return { status: 401, message: msg ?? "Unauthorized" };
     case 500:
-      return { status: 500, message: "Internal error" };
+      return { status: 500, message: msg ?? "Internal error" };
     case 400:
-      return { status: 400, message: "Bad request" };
+      return { status: 400, message: msg ?? "Bad request" };
     default:
-      return { status: status, message: "Error" };
+      return { status: status, message: msg ?? "Error" };
   }
 }
 
