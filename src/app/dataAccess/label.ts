@@ -34,7 +34,6 @@ export async function getUserLabels() {
 }
 
 export async function createLabel(name: string) {
-  // TODO: don't allow creating with same namme for this user
   if (!name) return genericHttpResponse(400);
 
   const userId = await getLoggedInUserId();
@@ -44,6 +43,16 @@ export async function createLabel(name: string) {
   try {
     const parseRes = z.string().safeParse(name);
     if (!parseRes.success) return genericHttpResponse(400);
+
+    const userCurrLabels = await User.findById(userId).select("labels");
+
+    if (!userCurrLabels) return genericHttpResponse(404);
+
+    const currLabels = userCurrLabels.labels;
+
+    const isDuplicate = currLabels.some((label) => label === name);
+
+    if (isDuplicate) return genericHttpResponse(400);
 
     await User.findOneAndUpdate(
       { _id: new ObjectId(userId) },
@@ -91,4 +100,4 @@ export async function removeLabel(name: string) {
   }
 }
 
-// TODO: ability to edit label
+// TODO FEAT: ability to edit label

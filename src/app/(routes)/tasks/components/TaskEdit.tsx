@@ -58,7 +58,7 @@ export default function TaskEdit({ task, onClose }: Props) {
       setLabels(res.data);
     } catch (err) {
       console.error("Error init", err);
-      // TODO: show toast
+      toast({ title: "Error getting information", variant: "destructive" });
     }
   }
 
@@ -92,7 +92,7 @@ export default function TaskEdit({ task, onClose }: Props) {
       let res;
       if (task?._id) {
         values.id = task._id;
-        // TODO: only pass changed values?
+        // TODO OPT: only pass changed values?
         res = await updateTask(values);
       } else {
         res = await createTask(values);
@@ -100,16 +100,28 @@ export default function TaskEdit({ task, onClose }: Props) {
 
       if (res.status !== 200) throw new Error(res.message);
 
+      let toastTitle = "Task updated!";
+      if (!task?._id) {
+        resetForm();
+        toastTitle = "Task created!";
+      }
+
       toast({
-        title: "Task updated",
-        description: "Successfully updated the task!",
+        title: toastTitle,
       });
 
       if (onClose) onClose();
     } catch (err) {
       console.error("Error saving task", err);
-      // TODO: toast
+      toast({ title: "Error saving task", variant: "destructive" });
     }
+  }
+
+  function resetForm() {
+    form.reset();
+    // TODO: reset rest of values
+    // form.setValue("priority", PRIORITY.DEFAULT);
+    // form.setValue("label", undefined);
   }
 
   return (
@@ -215,11 +227,11 @@ export default function TaskEdit({ task, onClose }: Props) {
           name="label"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Group</FormLabel>
+              <FormLabel>Label</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Priority" />
+                    <SelectValue placeholder="Select Label" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -234,7 +246,7 @@ export default function TaskEdit({ task, onClose }: Props) {
             </FormItem>
           )}
         />
-        {/* TODO: add loading */}
+        {/* TODO OPT: add loading */}
         <Button className="ml-auto flex" type="submit">
           {task ? "Update" : "Create"}
         </Button>
@@ -242,5 +254,3 @@ export default function TaskEdit({ task, onClose }: Props) {
     </Form>
   );
 }
-
-// TODO: set task label

@@ -12,6 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   task: ITask | undefined;
@@ -20,15 +21,17 @@ interface Props {
 }
 
 export default function TaskViewDrawer({ task, isOpen, onOpenChange }: Props) {
+  const { toast } = useToast();
+
   async function handleStatusChange(status: TASK_STATUS) {
     try {
       const res = await changeTaskStatus(task?._id?.toString(), status);
       if (res.status !== 200) throw new Error(res.message);
       onOpenChange(false);
-      //   TODO: toast
+      toast({ title: "Task updated!" });
     } catch (err) {
       console.error("Error updating task status", err);
-      // TOOD: toast
+      toast({ title: "Error updating task", variant: "destructive" });
     }
   }
 

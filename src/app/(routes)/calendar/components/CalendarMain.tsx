@@ -60,7 +60,6 @@ export default function CalendarMain({ tasks }: Props) {
 
   return (
     <div>
-      <h1>Calendar page!</h1>
       <Calendar
         components={{ Day: renderDay }}
         large={true}

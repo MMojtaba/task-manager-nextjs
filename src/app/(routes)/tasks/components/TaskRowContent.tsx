@@ -15,22 +15,25 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   task: ITask;
 }
 
 export default function TaskRowContent({ task }: Props) {
+  const { toast } = useToast();
+
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
   async function onTaskRemove() {
     try {
       const res = await removeTask(task._id.toString());
       if (res.status !== 200) throw new Error(res.message);
-      // TODO: toast
+      toast({ title: "Task removed!" });
     } catch (err) {
       console.error("Error removing task", err);
-      // TODO: toast
+      toast({ title: "Error removing task", variant: "destructive" });
     }
   }
 
@@ -42,7 +45,7 @@ export default function TaskRowContent({ task }: Props) {
     <>
       <div className="rounded-2xl border border-white p-4">
         <span className="flex gap-4">
-          {/* TODO: hover say priotity or group */}
+          {/* TODO OPT: hover say priotity or group */}
           <Badge className="w-20 justify-center bg-red-500">
             {task.priority}
           </Badge>

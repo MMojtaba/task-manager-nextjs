@@ -54,7 +54,6 @@ export default function TaskRow({ task, onTaskChange }: Props) {
               >
                 {/* Dropdown menu trigger seems to have a button inside producing a warning in console: button cannot be descentdant of button */}
                 <DropdownMenuTrigger>
-                  {/* TODO: change icon? */}
                   <FontAwesomeIcon icon={faGear} className="mr-2" />
                   <button onClick={() => setIsStatusSelectOpen(true)}>
                     {TASK_STATUS_TEXT[task.status]}
@@ -64,12 +63,14 @@ export default function TaskRow({ task, onTaskChange }: Props) {
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Task Status</DropdownMenuLabel>
 
-                  {/* TODO: stop propegation (so cliking status from dropdown doesn't change accordian open/close) */}
                   {Object.keys(TASK_STATUS).map((status) => (
                     <DropdownMenuCheckboxItem
                       key={status}
                       checked={task.status === status}
-                      onClick={() => handleStatusChange(status)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleStatusChange(status);
+                      }}
                     >
                       {TASK_STATUS_TEXT[status]}
                     </DropdownMenuCheckboxItem>

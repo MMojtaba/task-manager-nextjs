@@ -78,11 +78,10 @@ export async function getMyTasks({
 
   revalidateTag(TAGS.TASK);
   try {
-    // TODO
     const userId = await getLoggedInUserId();
     if (!userId) {
       console.error("Not authorized to get tasks");
-      return { status: 401, message: "Unauthorized" };
+      return genericHttpResponse(401);
     }
 
     const findQuery: any = {
@@ -138,7 +137,7 @@ export async function changeTaskStatus(
   id: string | undefined,
   newStatus: TASK_STATUS,
 ) {
-  // TODO: ok to throw error in server action? (research and run in build mode)
+  // TODO OPT: ok to throw error in server action? (research and run in build mode)
 
   if (!id || !newStatus) return genericHttpResponse(400);
 

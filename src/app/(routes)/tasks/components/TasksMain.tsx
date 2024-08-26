@@ -9,11 +9,14 @@ import TaskTable from "./TaskTable";
 import TaskEdit from "./TaskEdit";
 import { getMyTasks } from "@/app/dataAccess/task";
 import { getUserLabels } from "@/app/dataAccess/label";
+import { useToast } from "@/components/ui/use-toast";
 
 const TASKS_TABS = { ...TASK_STATUS, CREATE: "CREATE" };
 type TASKS_TABS = TASK_STATUS | "CREATE";
 
 export default function TasksMain() {
+  const { toast } = useToast();
+
   const [selectedTab, setSelectedTab] = useState<TASKS_TABS>(
     TASKS_TABS.IN_PROGRESS,
   );
@@ -31,7 +34,7 @@ export default function TasksMain() {
       else setTasks(res.data);
     } catch (err) {
       console.error("Error getting tasks", err);
-      // TODO: show toast
+      toast({ title: "Error getting your tasks", variant: "destructive" });
     }
   }
 
@@ -42,7 +45,10 @@ export default function TasksMain() {
       else setLabels(["All", ...res.data]);
     } catch (err) {
       console.error("Error initializing labels", err);
-      // TODO: show toast
+      toast({
+        title: "Error getting your information",
+        variant: "destructive",
+      });
     }
   }
 

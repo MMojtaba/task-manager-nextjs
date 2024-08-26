@@ -11,7 +11,7 @@ export default async function Calendar() {
   let tasks: ITask[] = [];
 
   try {
-    // TODO: how to make {} optional (so i don't have to provide it)
+    // TODO OPT: how to make {} optional (so i don't have to provide it)
     const res = await getMyTasks({ status: TASK_STATUS.IN_PROGRESS });
 
     if (res.status === 200) tasks = res.data;

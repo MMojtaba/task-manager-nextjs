@@ -8,5 +8,5 @@ export interface CREATE_TASK {
   priority: PRIORITY;
 }
 
-// TODO: fix this and use it
+// TODO OPT: fix this and use it
 export type UPDATE_TASK = CREATE_TASK | { id: string };

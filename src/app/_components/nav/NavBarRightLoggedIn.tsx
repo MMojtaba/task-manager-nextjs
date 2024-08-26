@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function NavBarRightLoggedIn() {
   return (
     <div>
-      {/* TODO: popover saying what the buttons does? */}
+      {/* TODO OPT: popover saying what the buttons does? */}
       <Button variant="ghost" size="sm">
         <Link href="/settings">
           <FontAwesomeIcon icon={faGear} size="2x" />

@@ -9,7 +9,7 @@ const authOptions: NextAuthConfig = {
   providers: [
     Credentials({
       name: "credentials",
-      //TODO TYPE
+
       async authorize(credentials): Promise<any | null> {
         await dbConnect();
         console.log("in authorize", credentials.email, credentials.password);
