@@ -1,7 +1,6 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import User from "../models/User";
-import dbConnect from "../utils/dbConnect";
 import { checkPasswords } from "../utils/authUtils";
 
 export const BASE_PATH = "/api/auth";
@@ -12,7 +11,6 @@ const authOptions: NextAuthConfig = {
       name: "credentials",
 
       async authorize(credentials): Promise<any | null> {
-        await dbConnect();
         console.log("in authorize", credentials.email);
         const user = await User.findOne({
           email: credentials.email,

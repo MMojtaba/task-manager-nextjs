@@ -1,3 +1,4 @@
+// TODO NOW: test npm start
 import { NextResponse } from "next/server";
 import { auth, BASE_PATH } from "./app/auth/auth";
 // import dbConnect from "./app/utils/dbConnect";
