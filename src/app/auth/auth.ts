@@ -2,6 +2,7 @@ import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import User from "../models/User";
 import dbConnect from "../utils/dbConnect";
+import { checkPasswords } from "../utils/authUtils";
 
 export const BASE_PATH = "/api/auth";
 
@@ -12,16 +13,19 @@ const authOptions: NextAuthConfig = {
 
       async authorize(credentials): Promise<any | null> {
         await dbConnect();
-        console.log("in authorize", credentials.email, credentials.password);
+        console.log("in authorize", credentials.email);
         const user = await User.findOne({
           email: credentials.email,
-          password: credentials.password,
         });
         if (user) {
-          console.log("authorizedx");
-          return user;
+          const match: boolean = await checkPasswords(
+            credentials.password as string,
+            user.password,
+          );
+          if (match) return user;
+          else return null;
         } else {
-          console.log("not authorizedx");
+          console.log("not authorized");
           return null;
         }
       },

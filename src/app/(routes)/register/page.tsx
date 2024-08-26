@@ -15,8 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const formSchema = z
     .object({
       email: z.string().email(),
@@ -38,7 +43,13 @@ export default function Page() {
   });
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    await createUser(values);
+    const res = await createUser(values);
+    if (res.status === 200) {
+      toast({ title: "Account created!" });
+      router.push("/login");
+    } else {
+      toast({ title: "Failed to create account", variant: "destructive" });
+    }
   }
 
   return (

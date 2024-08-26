@@ -15,12 +15,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 // export const metadata: Metadata = {
 //   title: "Login",
 // };
 
 export default function Page() {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const formSchema = z.object({
     // TODO NOW: uncomment
     email: z.string(), //.email({ message: "Please enter your email address." }),
@@ -36,7 +41,14 @@ export default function Page() {
   });
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    await authLogin(values);
+    try {
+      const res = await authLogin(values);
+      if (res.status !== 200) throw new Error(res?.message);
+      router.push("/");
+    } catch (err) {
+      console.error("Error loggin in", err);
+      toast({ title: "Wrong email or password", variant: "destructive" });
+    }
   }
 
   return (

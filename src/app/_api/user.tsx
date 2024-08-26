@@ -4,6 +4,7 @@ import dbConnect from "../utils/dbConnect";
 import User from "../models/User";
 import { z } from "zod";
 import { genericHttpResponse } from "@/lib/utils";
+import { hashPassword } from "../utils/authUtils";
 
 // TODO NOW: hash password
 
@@ -21,17 +22,12 @@ export async function createUser(values: PropsCreateUser) {
 
   try {
     await dbConnect();
-    const newUser = await User.create({ email, password });
+    const hashedPassword = await hashPassword(password);
+    const newUser = await User.create({ email, password: hashedPassword });
 
     return genericHttpResponse(200);
   } catch (err) {
     console.error("Error creating user", err);
     return genericHttpResponse(500);
   }
-}
-
-async function checkUser(formData: FormData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
-  console.log("create user is", email, password);
 }
