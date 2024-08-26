@@ -1,6 +1,6 @@
 "use client";
 
-import { createUser } from "@/app/_api/user";
+import { createUser } from "@/app/dataAccess/user";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
