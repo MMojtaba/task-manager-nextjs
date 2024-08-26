@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { auth } from "./auth/auth";
-import dbConnect from "./utils/dbConnect";
 config.autoAddCss = false;
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,7 +20,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  dbConnect();
 
   return (
     <html lang="en" className="dark">

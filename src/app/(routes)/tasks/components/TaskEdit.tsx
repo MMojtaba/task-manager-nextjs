@@ -37,22 +37,41 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { createTask, updateTask } from "../../../dataAccess/task";
 
-import { PRIORITY, GROUP, ITask } from "../../../models/Task";
+import { PRIORITY, ITask } from "../../../models/Task";
+import { getUserLabels } from "@/app/dataAccess/label";
+import { useEffect, useState } from "react";
 
 interface Props {
   task?: ITask;
-  onClose?: () => void;
+  onChange?: () => void;
 }
 
-export default function TaskEdit({ task, onClose }: Props) {
+export default function TaskEdit({ task, onChange }: Props) {
   const { toast } = useToast();
+
+  const [labels, setLabels] = useState<string[]>([]);
+
+  async function init() {
+    try {
+      const res = await getUserLabels();
+      if (res.status !== 200) throw new Error(res.message);
+      setLabels(res.data);
+    } catch (err) {
+      console.error("Error init", err);
+      toast({ title: "Error getting information", variant: "destructive" });
+    }
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const formSchema = z.object({
     title: z.string().min(1).max(50),
     description: z.string().optional(),
     dueDate: z.date(),
     priority: z.nativeEnum(PRIORITY, { message: "Please select a priority" }),
-    group: z.nativeEnum(GROUP, { message: "Please select a group" }),
+    label: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,7 +81,7 @@ export default function TaskEdit({ task, onClose }: Props) {
       description: task?.description ?? "",
       dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
       priority: task?.priority ?? PRIORITY.DEFAULT,
-      group: task?.group ?? GROUP.OTHER,
+      label: task?.label ?? undefined,
     },
   });
 
@@ -72,7 +91,7 @@ export default function TaskEdit({ task, onClose }: Props) {
       let res;
       if (task?._id) {
         values.id = task._id;
-        // TODO: only pass changed values?
+        // TODO OPT: only pass changed values?
         res = await updateTask(values);
       } else {
         res = await createTask(values);
@@ -80,16 +99,28 @@ export default function TaskEdit({ task, onClose }: Props) {
 
       if (res.status !== 200) throw new Error(res.message);
 
+      let toastTitle = "Task updated!";
+      if (!task?._id) {
+        resetForm();
+        toastTitle = "Task created!";
+      }
+
       toast({
-        title: "Task updated",
-        description: "Successfully updated the task!",
+        title: toastTitle,
       });
 
-      if (onClose) onClose();
+      if (onChange) onChange();
     } catch (err) {
       console.error("Error saving task", err);
-      // TODO: toast
+      toast({ title: "Error saving task", variant: "destructive" });
     }
+  }
+
+  function resetForm() {
+    form.reset();
+    // TODO: reset rest of values
+    // form.setValue("priority", PRIORITY.DEFAULT);
+    // form.setValue("label", undefined);
   }
 
   return (
@@ -156,7 +187,6 @@ export default function TaskEdit({ task, onClose }: Props) {
                     disabled={(date) =>
                       date < new Date() || date < new Date("1900-01-01")
                     }
-                    initialFocus
                   />
                 </PopoverContent>
               </Popover>
@@ -192,20 +222,20 @@ export default function TaskEdit({ task, onClose }: Props) {
 
         <FormField
           control={form.control}
-          name="group"
+          name="label"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Group</FormLabel>
+              <FormLabel>Label</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select Priority" />
+                    <SelectValue placeholder="Select Label" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.entries(GROUP).map(([key, groupName], index) => (
-                    <SelectItem key={key} value={groupName}>
-                      {groupName}
+                  {labels.map((label: string) => (
+                    <SelectItem key={label} value={label}>
+                      {label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -214,8 +244,10 @@ export default function TaskEdit({ task, onClose }: Props) {
             </FormItem>
           )}
         />
-        {/* TODO: add loading */}
-        <Button type="submit">{task ? "Update" : "Create"}</Button>
+        {/* TODO OPT: add loading */}
+        <Button className="ml-auto flex" type="submit">
+          {task ? "Update" : "Create"}
+        </Button>
       </form>
     </Form>
   );

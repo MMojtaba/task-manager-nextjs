@@ -67,3 +67,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ultimate-center {
+  justify-self: center;
+  align-self: center;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}

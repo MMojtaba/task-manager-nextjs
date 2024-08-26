@@ -15,22 +15,26 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import TaskEdit from "./TaskEdit";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   task: ITask;
+  onChange: any;
 }
 
-export default function TaskRowContent({ task }: Props) {
+export default function TaskRowContent({ task, onChange }: Props) {
+  const { toast } = useToast();
+
   const [editOpen, setEditOpen] = useState<boolean>(false);
 
   async function onTaskRemove() {
     try {
       const res = await removeTask(task._id.toString());
       if (res.status !== 200) throw new Error(res.message);
-      // TODO: toast
+      toast({ title: "Task removed!" });
     } catch (err) {
       console.error("Error removing task", err);
-      // TODO: toast
+      toast({ title: "Error removing task", variant: "destructive" });
     }
   }
 
@@ -38,17 +42,23 @@ export default function TaskRowContent({ task }: Props) {
     setEditOpen(true);
   }
 
+  async function handleEditChange() {
+    setEditOpen(false);
+    if (onChange) onChange();
+  }
+
   return (
     <>
       <div className="rounded-2xl border border-white p-4">
         <span className="flex gap-4">
-          {/* TODO: hover say priotity or group */}
-          <Badge className="w-20 justify-center bg-red-500">
+          <Badge className="w-20 justify-center bg-red-500" title="Priority">
             {task.priority}
           </Badge>
-          <Badge className="w-20 justify-center bg-blue-400">
-            {task.group}
-          </Badge>
+          {!!task.label && (
+            <Badge className="w-20 justify-center bg-blue-400" title="Label">
+              {task.label}
+            </Badge>
+          )}
         </span>
         <span className="my-4 flex gap-4">
           <h3 className="text-base font-bold">Description</h3>
@@ -67,8 +77,8 @@ export default function TaskRowContent({ task }: Props) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Task</DialogTitle>
-            <DialogDescription className="">
-              <TaskEdit task={task} onClose={() => setEditOpen(false)} />
+            <DialogDescription asChild>
+              <TaskEdit task={task} onChange={handleEditChange} />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

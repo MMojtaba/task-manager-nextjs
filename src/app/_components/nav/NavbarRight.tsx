@@ -1,27 +1,6 @@
-import Link from "next/link";
-import LogoutButton from "./LogoutButton";
-import { badgeVariants } from "@/components/ui/badge";
+import NavbarRightLoggedIn from "./NavBarRightLoggedIn";
+import NavbarRightNotLoggedIn from "./NavbarRightNotLoggedIn";
 
 export default function NavbarRight({ loggedIn }: { loggedIn: boolean }) {
-  console.log("in navbar right");
-  return (
-    <>
-      {loggedIn ? (
-        <LogoutButton />
-      ) : (
-        <>
-          <Link
-            className={badgeVariants({ variant: "outline" })}
-            href="/register"
-            prefetch={false}
-          >
-            Register
-          </Link>
-          <Link className={badgeVariants({ variant: "outline" })} href="/login">
-            Login
-          </Link>
-        </>
-      )}
-    </>
-  );
+  return <>{loggedIn ? <NavbarRightLoggedIn /> : <NavbarRightNotLoggedIn />}</>;
 }

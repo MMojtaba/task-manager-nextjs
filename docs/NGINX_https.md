@@ -15,7 +15,7 @@ This guide outlines how to setup HTTPS with a self-signed certificate using NGIN
 
 ## 1. Setup Certificates
 
-- 1.1 Create the keys - sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+- 1.1 Create the keys - sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
   sudo openssl dhparam -out /etc/nginx/dhparam.pem 4096
 - 1.2 Add the keys and certificate to nginx
 

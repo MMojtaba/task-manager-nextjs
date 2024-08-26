@@ -2,31 +2,85 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ITask, TASK_STATUS, TASK_STATUS_TEXT } from "@/app/models/Task";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import TaskTable from "./TaskTable";
 import TaskEdit from "./TaskEdit";
-
-interface Props {
-  tasks: ITask[] | undefined;
-}
+import { getMyTasks } from "@/app/dataAccess/task";
+import { getUserLabels } from "@/app/dataAccess/label";
+import { useToast } from "@/components/ui/use-toast";
 
 const TASKS_TABS = { ...TASK_STATUS, CREATE: "CREATE" };
 type TASKS_TABS = TASK_STATUS | "CREATE";
 
-export default function TasksMain({ tasks }: Props) {
+export default function TasksMain() {
+  const { toast } = useToast();
+
   const [selectedTab, setSelectedTab] = useState<TASKS_TABS>(
     TASKS_TABS.IN_PROGRESS,
   );
 
+  const [selectedLabel, setSelectedLabel] = useState<string>("All");
+
+  const [tasks, setTasks] = useState<any[]>();
+  const [labels, setLabels] = useState<any[]>([]);
+
+  async function initTasks(status: TASK_STATUS, label: string) {
+    try {
+      const res = await getMyTasks({ status: status, label: label });
+      if (res.status === 404) setTasks([]);
+      else if (res.status !== 200) throw new Error(res.message);
+      else setTasks(res.data);
+    } catch (err) {
+      console.error("Error getting tasks", err);
+      toast({ title: "Error getting your tasks", variant: "destructive" });
+    }
+  }
+
+  async function initLabels() {
+    try {
+      const res = await getUserLabels();
+      if (res.status !== 200) throw new Error(res.message);
+      else setLabels(["All", ...res.data]);
+    } catch (err) {
+      console.error("Error initializing labels", err);
+      toast({
+        title: "Error getting your information",
+        variant: "destructive",
+      });
+    }
+  }
+
+  function handleStatusTabChange(value: string) {
+    setSelectedTab(value as TASKS_TABS);
+
+    if (value !== TASKS_TABS.CREATE)
+      initTasks(value as TASK_STATUS, selectedLabel);
+  }
+
+  function handleLabelTabChange(value: string) {
+    setSelectedLabel(value);
+    initTasks(selectedTab as TASK_STATUS, value);
+  }
+
+  // TODO: use context to pass this
+  function onTaskChange(id: string) {
+    initTasks(selectedTab as TASK_STATUS, selectedLabel);
+  }
+
+  useEffect(() => {
+    initLabels();
+    initTasks(TASK_STATUS.IN_PROGRESS, selectedLabel);
+  }, []);
+
   return (
     <>
       <Tabs
-        className="mx-1"
+        className="m-2"
         defaultValue={TASKS_TABS.IN_PROGRESS}
         value={selectedTab}
-        onValueChange={(value) => setSelectedTab(value as TASKS_TABS)}
+        onValueChange={handleStatusTabChange}
       >
         <TabsList className="w-full">
           <TabsTrigger className="w-1/4" value={TASKS_TABS.IN_PROGRESS}>
@@ -44,10 +98,27 @@ export default function TasksMain({ tasks }: Props) {
           </TabsTrigger>
         </TabsList>
       </Tabs>
+
+      {selectedTab !== TASKS_TABS.CREATE && (
+        <Tabs
+          className="m-2 mx-24"
+          defaultValue={"All"}
+          value={selectedLabel}
+          onValueChange={handleLabelTabChange}
+        >
+          <TabsList className="w-full">
+            {labels.map((label) => (
+              <TabsTrigger key={label} className="" value={label}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      )}
       {selectedTab === TASKS_TABS.CREATE ? (
         <TaskEdit />
       ) : (
-        <TaskTable tasks={tasks} />
+        <TaskTable tasks={tasks} onTaskChange={onTaskChange} />
       )}
     </>
   );

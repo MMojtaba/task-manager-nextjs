@@ -3,6 +3,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { redirect } from "next/navigation";
+import { genericHttpResponse } from "../utils/utils";
 
 export async function authLogin(values: { email: string; password: string }) {
   const email = values.email;
@@ -16,13 +17,12 @@ export async function authLogin(values: { email: string; password: string }) {
     await signIn("credentials", {
       email: email,
       password: password,
-      // redirectTo: "/",
+      redirect: false,
     });
-    // revalidatePath("login");
+    return genericHttpResponse(200);
   } catch (err) {
-    //
+    return genericHttpResponse(500);
   }
-  redirect("/");
 }
 
 export async function authLogout() {

@@ -3,9 +3,6 @@
 import { authLogin } from "@/app/auth/authActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Metadata } from "next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,19 +14,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 // export const metadata: Metadata = {
 //   title: "Login",
 // };
 
 export default function Page() {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const formSchema = z.object({
-    // TODO: uncomment
-    email: z.string(), //.email({ message: "Please enter your email address." }),
-    password: z.string(), //.min(3, { message: "Please enter your password." }),
+    email: z.string().email(),
+    password: z.string().min(3, { message: "Please enter your password." }),
   });
 
   const loginForm = useForm<z.infer<typeof formSchema>>({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -38,11 +41,18 @@ export default function Page() {
   });
 
   async function onFormSubmit(values: z.infer<typeof formSchema>) {
-    await authLogin(values);
+    try {
+      const res = await authLogin(values);
+      if (res.status !== 200) throw new Error(res?.message);
+      router.push("/");
+    } catch (err) {
+      console.error("Error loggin in", err);
+      toast({ title: "Wrong email or password", variant: "destructive" });
+    }
   }
 
   return (
-    <div className="mx-2">
+    <div className="m-4">
       <Form {...loginForm}>
         <form
           onSubmit={loginForm.handleSubmit(onFormSubmit)}
@@ -55,7 +65,7 @@ export default function Page() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder="email..." {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -69,14 +79,19 @@ export default function Page() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input type="password" {...field} placeholder="password..." />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+          <div className="flex flex-col gap-4">
+            <Link href="/register" className="text-slate-200 hover:underline">
+              Don't have an account? Register
+            </Link>
+            <Button type="submit">Login</Button>
+          </div>
         </form>
       </Form>
     </div>
