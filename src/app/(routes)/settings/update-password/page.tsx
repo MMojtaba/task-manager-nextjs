@@ -1,7 +1,8 @@
 export default function Page() {
+  // TODO FEAT:
   return (
     <>
-      <h1>in update password</h1>
+      <h1>Coming soon...</h1>
     </>
   );
 }
