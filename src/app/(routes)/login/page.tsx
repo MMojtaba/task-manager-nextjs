@@ -27,9 +27,8 @@ export default function Page() {
   const router = useRouter();
 
   const formSchema = z.object({
-    // TODO NOW: uncomment
-    email: z.string(), //.email({ message: "Please enter your email address." }),
-    password: z.string(), //.min(3, { message: "Please enter your password." }),
+    email: z.string().email(),
+    password: z.string().min(3, { message: "Please enter your password." }),
   });
 
   const loginForm = useForm<z.infer<typeof formSchema>>({
