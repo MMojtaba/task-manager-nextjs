@@ -50,6 +50,7 @@ export default function TaskRow({ task }: Props) {
                 open={isStatusSelectOpen}
                 onOpenChange={setIsStatusSelectOpen}
               >
+                {/* Dropdown menu trigger seems to have a button inside producing a warning in console: button cannot be descentdant of button */}
                 <DropdownMenuTrigger>
                   {/* TODO: change icon? */}
                   <FontAwesomeIcon icon={faGear} className="mr-2" />
