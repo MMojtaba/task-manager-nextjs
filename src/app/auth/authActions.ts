@@ -3,7 +3,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { redirect } from "next/navigation";
-import { genericHttpResponse } from "../utils/utils";
+import { genericHttpResponse } from "@/lib/utils";
 
 export async function authLogin(values: { email: string; password: string }) {
   const email = values.email;

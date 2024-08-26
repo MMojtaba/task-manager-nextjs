@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { formatDate } from "@/lib/utils";
 import TaskRowContent from "./TaskRowContent";
 import { Badge } from "@/components/ui/badge";
 import { TASK_STATUS, TASK_STATUS_TEXT } from "@/app/models/Task";
@@ -22,7 +23,6 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { changeTaskStatus } from "@/app/dataAccess/task";
-import { formatDate } from "@/app/utils/utils";
 
 interface Props {
   task: any;
