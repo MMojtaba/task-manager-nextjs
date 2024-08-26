@@ -64,6 +64,7 @@ export default function TasksMain() {
     initTasks(selectedTab as TASK_STATUS, value);
   }
 
+  // TODO: use context to pass this
   function onTaskChange(id: string) {
     initTasks(selectedTab as TASK_STATUS, selectedLabel);
   }

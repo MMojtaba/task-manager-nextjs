@@ -86,7 +86,10 @@ export default function TaskRow({ task, onTaskChange }: Props) {
             </span>
           </AccordionTrigger>
           <AccordionContent>
-            <TaskRowContent task={task} />
+            <TaskRowContent
+              task={task}
+              onChange={() => onTaskChange(task._id)}
+            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

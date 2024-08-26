@@ -19,9 +19,10 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   task: ITask;
+  onChange: any;
 }
 
-export default function TaskRowContent({ task }: Props) {
+export default function TaskRowContent({ task, onChange }: Props) {
   const { toast } = useToast();
 
   const [editOpen, setEditOpen] = useState<boolean>(false);
@@ -39,6 +40,11 @@ export default function TaskRowContent({ task }: Props) {
 
   async function onTaskEdit() {
     setEditOpen(true);
+  }
+
+  async function handleEditChange() {
+    setEditOpen(false);
+    if (onChange) onChange();
   }
 
   return (
@@ -72,7 +78,7 @@ export default function TaskRowContent({ task }: Props) {
           <DialogHeader>
             <DialogTitle>Edit Task</DialogTitle>
             <DialogDescription asChild>
-              <TaskEdit task={task} onClose={() => setEditOpen(false)} />
+              <TaskEdit task={task} onChange={handleEditChange} />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

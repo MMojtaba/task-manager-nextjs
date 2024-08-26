@@ -43,10 +43,10 @@ import { useEffect, useState } from "react";
 
 interface Props {
   task?: ITask;
-  onClose?: () => void;
+  onChange?: () => void;
 }
 
-export default function TaskEdit({ task, onClose }: Props) {
+export default function TaskEdit({ task, onChange }: Props) {
   const { toast } = useToast();
 
   const [labels, setLabels] = useState<string[]>([]);
@@ -79,7 +79,6 @@ export default function TaskEdit({ task, onClose }: Props) {
     defaultValues: {
       title: task?.title ?? "",
       description: task?.description ?? "",
-      // TODO NOW: can't change due date when editing task
       dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
       priority: task?.priority ?? PRIORITY.DEFAULT,
       label: task?.label ?? undefined,
@@ -110,7 +109,7 @@ export default function TaskEdit({ task, onClose }: Props) {
         title: toastTitle,
       });
 
-      if (onClose) onClose();
+      if (onChange) onChange();
     } catch (err) {
       console.error("Error saving task", err);
       toast({ title: "Error saving task", variant: "destructive" });

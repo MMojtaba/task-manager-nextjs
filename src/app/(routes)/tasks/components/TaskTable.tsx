@@ -1,3 +1,5 @@
+"use client";
+
 import { ITask } from "@/app/models/Task";
 import TaskRow from "./TaskRow";
 
