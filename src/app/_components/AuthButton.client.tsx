@@ -1,5 +1,7 @@
 "use client";
 
+// NOT USED
+
 import { useSession } from "next-auth/react";
 import { authLogout } from "../auth/authActions";
 import { useRouter } from "next/navigation";
