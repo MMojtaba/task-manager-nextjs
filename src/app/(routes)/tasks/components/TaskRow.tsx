@@ -26,15 +26,17 @@ import { changeTaskStatus } from "@/app/dataAccess/task";
 
 interface Props {
   task: any;
+  onTaskChange?: any;
 }
 
-export default function TaskRow({ task }: Props) {
+export default function TaskRow({ task, onTaskChange }: Props) {
   const [isStatusSelectOpen, setIsStatusSelectOpen] = useState<boolean>(false);
 
   async function handleStatusChange(status: TASK_STATUS) {
     try {
       const res = await changeTaskStatus(task._id, status);
       if (res.status !== 200) throw new Error(res.message);
+      onTaskChange(task._id);
     } catch (err) {
       console.error("Error changing task status", err);
     }

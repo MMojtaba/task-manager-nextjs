@@ -58,6 +58,10 @@ export default function TasksMain() {
     initTasks(selectedTab as TASK_STATUS, value);
   }
 
+  function onTaskChange(id: string) {
+    initTasks(selectedTab as TASK_STATUS, selectedLabel);
+  }
+
   useEffect(() => {
     initLabels();
     initTasks(TASK_STATUS.IN_PROGRESS, selectedLabel);
@@ -107,7 +111,7 @@ export default function TasksMain() {
       {selectedTab === TASKS_TABS.CREATE ? (
         <TaskEdit />
       ) : (
-        <TaskTable tasks={tasks} />
+        <TaskTable tasks={tasks} onTaskChange={onTaskChange} />
       )}
     </>
   );
