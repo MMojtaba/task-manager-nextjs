@@ -45,12 +45,11 @@ export default function TaskRowContent({ task }: Props) {
     <>
       <div className="rounded-2xl border border-white p-4">
         <span className="flex gap-4">
-          {/* TODO OPT: hover say priotity or group */}
-          <Badge className="w-20 justify-center bg-red-500">
+          <Badge className="w-20 justify-center bg-red-500" title="Priority">
             {task.priority}
           </Badge>
           {!!task.label && (
-            <Badge className="w-20 justify-center bg-blue-400">
+            <Badge className="w-20 justify-center bg-blue-400" title="Label">
               {task.label}
             </Badge>
           )}

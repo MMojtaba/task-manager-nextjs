@@ -79,7 +79,7 @@ export default function TaskEdit({ task, onClose }: Props) {
     defaultValues: {
       title: task?.title ?? "",
       description: task?.description ?? "",
-      // TODO: can't change due date when editing task
+      // TODO NOW: can't change due date when editing task
       dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
       priority: task?.priority ?? PRIORITY.DEFAULT,
       label: task?.label ?? undefined,

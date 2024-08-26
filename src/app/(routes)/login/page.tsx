@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Link from "next/link";
 
 // export const metadata: Metadata = {
 //   title: "Login",
@@ -21,7 +22,7 @@ import {
 
 export default function Page() {
   const formSchema = z.object({
-    // TODO: uncomment
+    // TODO NOW: uncomment
     email: z.string(), //.email({ message: "Please enter your email address." }),
     password: z.string(), //.min(3, { message: "Please enter your password." }),
   });
@@ -39,7 +40,7 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-2">
+    <div className="m-4">
       <Form {...loginForm}>
         <form
           onSubmit={loginForm.handleSubmit(onFormSubmit)}
@@ -52,7 +53,7 @@ export default function Page() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder="email..." {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -66,14 +67,19 @@ export default function Page() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input type="password" {...field} placeholder="password..." />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+          <div className="flex flex-col gap-4">
+            <Link href="/register" className="text-slate-200 hover:underline">
+              Don't have an account? Register
+            </Link>
+            <Button type="submit">Login</Button>
+          </div>
         </form>
       </Form>
     </div>

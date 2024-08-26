@@ -6,17 +6,21 @@ import { Button } from "@/components/ui/button";
 import { authLogout } from "@/app/auth/authActions";
 import Link from "next/link";
 
-export default function NavBarRightLoggedIn() {
+export default function NavbarRightLoggedIn() {
   return (
     <div>
-      {/* TODO OPT: popover saying what the buttons does? */}
-      <Button variant="ghost" size="sm">
+      <Button variant="ghost" size="sm" title="Settings">
         <Link href="/settings">
           <FontAwesomeIcon icon={faGear} size="2x" />
         </Link>
       </Button>
 
-      <Button variant="ghost" size="sm" onClick={() => authLogout()}>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => authLogout()}
+        title="Logout"
+      >
         <FontAwesomeIcon icon={faDoorOpen} size="2x" />
       </Button>
     </div>

@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Page() {
-  // TODO: compare passwords match
+  // TODO NOW: compare passwords match
   const formSchema = z.object({
     email: z.string().email(),
     password: z.string().min(3),
@@ -37,7 +38,7 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-2">
+    <div className="m-4">
       <Form {...registerForm}>
         <form
           onSubmit={registerForm.handleSubmit(onFormSubmit)}
@@ -50,7 +51,7 @@ export default function Page() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder="email..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +88,12 @@ export default function Page() {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <div className="flex flex-col gap-4">
+            <Link href="/login" className="text-slate-200 hover:underline">
+              Already have an account? Login
+            </Link>
+            <Button type="submit">Register</Button>
+          </div>
         </form>
       </Form>
     </div>

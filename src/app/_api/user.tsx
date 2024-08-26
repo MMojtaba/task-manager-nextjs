@@ -5,7 +5,7 @@ import User from "../models/User";
 import { z } from "zod";
 import { genericHttpResponse } from "@/lib/utils";
 
-// TODO: hash password
+// TODO NOW: hash password
 
 interface PropsCreateUser {
   email: string;
