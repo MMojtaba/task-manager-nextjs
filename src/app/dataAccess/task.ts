@@ -70,10 +70,10 @@ export async function getMyTasks({
   status,
   label,
 }: {
-  status: TASK_STATUS;
+  status?: TASK_STATUS;
   label?: string;
 }) {
-  z.nativeEnum(TASK_STATUS).parse(status);
+  z.nativeEnum(TASK_STATUS).optional().parse(status);
   z.string().optional().parse(label);
 
   revalidateTag(TAGS.TASK);
@@ -87,10 +87,10 @@ export async function getMyTasks({
 
     const findQuery: any = {
       user: new ObjectId(userId),
-      status: status,
     };
 
-    if (label !== "All") findQuery.label = label;
+    if (status) findQuery.status = status;
+    if (label && label !== "All") findQuery.label = label;
 
     const tasks = await Task.find(findQuery).sort({ dueDate: "desc" });
     if (!tasks.length) {
