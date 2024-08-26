@@ -17,9 +17,9 @@ export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="m-2 flex gap-2">
-      <NavigationMenu orientation="vertical">
-        <NavigationMenuList className="flex flex-col rounded border border-slate-400 bg-slate-700 p-2 pb-96">
+    <div className="m-2 flex flex-col items-center gap-2">
+      <NavigationMenu orientation="horizontal">
+        <NavigationMenuList className="flex rounded border border-slate-400 bg-slate-700 p-2">
           <NavigationMenuItem className="">
             <Link href="/settings" legacyBehavior passHref>
               <NavigationMenuLink
