@@ -31,6 +31,7 @@ export default function TaskRowContent({ task, onChange }: Props) {
     try {
       const res = await removeTask(task._id.toString());
       if (res.status !== 200) throw new Error(res.message);
+      if (onChange) onChange();
       toast({ title: "Task removed!" });
     } catch (err) {
       console.error("Error removing task", err);
