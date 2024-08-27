@@ -60,11 +60,13 @@ export default function CalendarMain({ tasks }: Props) {
 
   return (
     <div>
-      <Calendar
-        components={{ Day: renderDay }}
-        large={true}
-        className="w-full"
-      />
+      <div className="flex content-center items-center justify-center">
+        <Calendar
+          components={{ Day: renderDay }}
+          large={true}
+          className="flex w-full justify-center"
+        />
+      </div>
       <TaskViewDrawer
         task={shownTask}
         isOpen={isOpen}
