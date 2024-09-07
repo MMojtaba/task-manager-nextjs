@@ -1,5 +1,3 @@
-// import bcrypt from "bcrypt";
-
 import { auth } from "../auth/auth";
 
 export async function getLoggedInUserId() {

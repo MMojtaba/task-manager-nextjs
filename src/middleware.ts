@@ -9,20 +9,14 @@ export const config = {
 
 const { auth } = NextAuth(authConfig);
 
-// TODO NOW: fix this giving error in npm run build
 export default auth(async (req) => {
-  return;
-  // const reqUrl = new URL(req.url);
-  // if (!req.auth && !["/login", "/register"].includes(reqUrl?.pathname)) {
-  //   console.log("not auth");
-  //   // TODO NOW: it includes aditional path causing infinite redirects
-  //   return NextResponse.redirect(new URL("login", req.url));
-  // } else if (req.auth && ["/login", "/register"].includes(reqUrl?.pathname)) {
-  //   console.log("is auth");
-  //   return NextResponse.redirect(new URL("/", req.url));
-  // }
+  const reqUrl = new URL(req.url);
+  if (!req.auth && !["/login", "/register"].includes(reqUrl?.pathname)) {
+    console.log("not auth");
+    // TODO: it includes aditional path causing infinite redirects (seems fixed now?)
+    return NextResponse.redirect(new URL("login", req.url));
+  } else if (req.auth && ["/login", "/register"].includes(reqUrl?.pathname)) {
+    console.log("is auth");
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 });
-
-// export default function () {
-//   return;
-// }
