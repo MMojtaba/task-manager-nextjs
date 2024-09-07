@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
-import { auth, signIn, signOut } from "./auth";
+import { auth, signIn, signOut } from "../auth/auth";
 import { redirect } from "next/navigation";
 import { genericHttpResponse } from "../utils/utils";
 
