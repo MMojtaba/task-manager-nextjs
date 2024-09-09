@@ -18,7 +18,6 @@ import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
-import { Resend } from "resend";
 import { tmpSendEmail } from "@/app/dataAccess/label";
 
 // export const metadata: Metadata = {
