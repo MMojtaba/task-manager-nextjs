@@ -10,6 +10,7 @@ export const config = {
 const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
+  return;
   const reqUrl = new URL(req.url);
   if (!req.auth && !["/login", "/register"].includes(reqUrl?.pathname)) {
     console.log("not auth");

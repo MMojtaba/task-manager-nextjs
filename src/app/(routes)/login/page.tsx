@@ -31,6 +31,17 @@ export default function Page() {
     password: z.string().min(3, { message: "Please enter your password." }),
   });
 
+  async function tmpFetch() {
+    const response = await fetch("/api/tmp", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: "helloxx" }),
+    });
+    console.log("res is", response);
+  }
+
   const loginForm = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
     resolver: zodResolver(formSchema),
@@ -94,6 +105,7 @@ export default function Page() {
           </div>
         </form>
       </Form>
+      <Button onClick={tmpFetch}>Test</Button>
     </div>
   );
 
