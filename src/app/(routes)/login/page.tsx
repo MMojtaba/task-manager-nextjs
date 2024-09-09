@@ -18,6 +18,9 @@ import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
+import { Resend } from "resend";
+import { tmpSendEmail } from "@/app/dataAccess/label";
+
 // export const metadata: Metadata = {
 //   title: "Login",
 // };
@@ -25,6 +28,11 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const { toast } = useToast();
   const router = useRouter();
+
+  // for testing sending emails using resend
+  async function tmpHandleSendEmail() {
+    await tmpSendEmail();
+  }
 
   const formSchema = z.object({
     email: z.string().email(),
@@ -94,6 +102,7 @@ export default function Page() {
           </div>
         </form>
       </Form>
+      <Button onClick={tmpHandleSendEmail}>Send Email</Button>
     </div>
   );
 

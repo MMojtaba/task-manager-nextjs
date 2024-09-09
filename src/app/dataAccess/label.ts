@@ -101,3 +101,20 @@ export async function removeLabel(name: string) {
 }
 
 // TODO FEAT: ability to edit label
+import { Resend } from "resend";
+
+export async function tmpSendEmail() {
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "@gmail.com",
+      subject: "Hello World x",
+      html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
+    });
+    console.log("sent email");
+  } catch (err) {
+    console.error("Resend error", err);
+  }
+}
