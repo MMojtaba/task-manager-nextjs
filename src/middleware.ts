@@ -13,8 +13,7 @@ export default auth(async (req) => {
   const reqUrl = new URL(req.url);
   if (!req.auth && !["/login", "/register"].includes(reqUrl?.pathname)) {
     console.log("not auth");
-    // TODO: it includes aditional path causing infinite redirects (seems fixed now?)
-    return NextResponse.redirect(new URL("login", req.url));
+    return NextResponse.redirect(new URL("login", reqUrl.origin));
   } else if (req.auth && ["/login", "/register"].includes(reqUrl?.pathname)) {
     console.log("is auth");
     return NextResponse.redirect(new URL("/", req.url));
