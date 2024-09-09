@@ -16,6 +16,7 @@ export async function createTask(formValues: CREATE_TASK) {
 
     if (!userId) return genericHttpResponse(401);
 
+    // TODO SECURITY: validate
     const { title, description, dueDate, priority, label } = formValues;
 
     await Task.create({
@@ -42,6 +43,7 @@ export async function updateTask(formValues: any) {
   if (!userId) return genericHttpResponse(401);
 
   try {
+    // TODO SECURITY: validate
     const { id, title, description, dueDate, priority, label } = formValues;
     if (!id) return genericHttpResponse(400);
 
@@ -113,6 +115,7 @@ export async function removeTask(taskId: string) {
   if (!loggedInUID) return genericHttpResponse(401);
 
   try {
+    z.string().parse(taskId);
     const task = await Task.findById(new ObjectId(taskId));
 
     if (!task) return genericHttpResponse(404);
@@ -146,7 +149,7 @@ export async function changeTaskStatus(
 
   if (!newStatus) return genericHttpResponse(400);
 
-  z.string().parse(newStatus);
+  z.nativeEnum(TASK_STATUS).parse(newStatus);
   z.string().parse(id);
 
   try {
